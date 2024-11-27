@@ -28,17 +28,69 @@ namespace ReactiveInvoicer.Controllers
         }
 
         // GET: api/Partners/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Partner>> GetPartner(decimal id)
-        {
-            var partner = await _context.Partners.FindAsync(id);
 
-            if (partner == null)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPartnerSummary(decimal id)
+        {
+            try
             {
-                return NotFound();
+
+                var partner = await _context.Partners.FindAsync(id);
+                if (partner == null)
+                {
+                    return NotFound(new { message = "Partner not found" });
+                }
+
+
+                var invoices = await _context.Invoices
+                    .Where(i => i.PartnerId == id)
+                    .ToListAsync();
+
+                if (!invoices.Any())
+                {
+                    return Ok(new
+                    {
+                        Partner = new
+                        {
+                            partner.PartnerId,
+                            partner.PartnertFullname,
+                            partner.PartnerEmail,
+                            partner.PartnerPhone,
+                        },
+                        InvoicesSummary = "No invoices found for this partner."
+                    });
+                }
+
+                var totalInvoices = invoices.Count;
+                var totalInvoiceValue = invoices.Sum(i => i.InvoiceValue);
+                var paidInvoices = invoices.Count(i => i.InvoiceStatus == "P"); 
+                var unpaidInvoices = totalInvoices - paidInvoices;
+
+
+                return Ok(new
+                {
+                    Partner = new
+                    {
+                        partner.PartnerId,
+                        partner.PartnertFullname,
+                        partner.PartnerEmail,
+                        partner.PartnerPhone,
+                    },
+                    InvoicesSummary = new
+                    {
+                        TotalInvoices = totalInvoices,
+                        TotalInvoiceValue = totalInvoiceValue,
+                        PaidInvoices = paidInvoices,
+                        UnpaidInvoices = unpaidInvoices
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+               
+                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
             }
 
-            return partner;
         }
 
         // PUT: api/Partners/5
