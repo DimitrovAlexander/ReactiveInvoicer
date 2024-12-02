@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 
 namespace ReactiveInvoicer.Models
 {
@@ -10,7 +11,7 @@ namespace ReactiveInvoicer.Models
             // Ensure database is created
             string sqlConnectionString = conString;
 
-            string script = File.ReadAllText(@"..\..\Database\ApplicationTrackerHR Insert.sql");
+            string script = File.ReadAllText(@"..\..\Database\ReactiveInvoicer Insert.sql");
 
             SqlConnection conn = new SqlConnection(sqlConnectionString);
 
@@ -22,3 +23,4 @@ namespace ReactiveInvoicer.Models
         }
 
     }
+}
