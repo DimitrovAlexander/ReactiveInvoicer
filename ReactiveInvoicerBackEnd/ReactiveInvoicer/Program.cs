@@ -25,7 +25,13 @@ namespace ReactiveInvoicer
             builder.Services.AddDbContext<ReactiveInvoiceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
-
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbcontext = scope.ServiceProvider.GetRequiredService<ReactiveInvoiceContext>();
+                dbcontext.Database.EnsureDeleted();
+                dbcontext.Database.EnsureCreated();
+                DbInitializer.Initialize(builder.Configuration.GetConnectionString("DatabaseExpress"));
+            }
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
