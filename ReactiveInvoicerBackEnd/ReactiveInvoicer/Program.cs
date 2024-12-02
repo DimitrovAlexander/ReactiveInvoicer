@@ -30,7 +30,7 @@ namespace ReactiveInvoicer
                 var dbcontext = scope.ServiceProvider.GetRequiredService<ReactiveInvoiceContext>();
                 dbcontext.Database.EnsureDeleted();
                 dbcontext.Database.EnsureCreated();
-                DbInitializer.Initialize(builder.Configuration.GetConnectionString("DatabaseExpress"));
+                DbInitializer.Initialize(builder.Configuration.GetConnectionString("DefaultConnection"));
             }
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
