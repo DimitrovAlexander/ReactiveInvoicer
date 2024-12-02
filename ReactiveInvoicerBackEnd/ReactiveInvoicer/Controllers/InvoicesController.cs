@@ -24,7 +24,7 @@ namespace ReactiveInvoicer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoices()
         {
-            return await _context.Invoices.ToListAsync();
+            return await _context.Invoices.Include(i=>i.Payments).ToListAsync();
         }
 
         // GET: api/Invoices/5
