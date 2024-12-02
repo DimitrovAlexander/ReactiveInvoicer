@@ -150,20 +150,7 @@ namespace ReactiveInvoicer.Controllers
         }
 
         // DELETE: api/Partners/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePartner(decimal id)
-        {
-            var partner = await _context.Partners.FindAsync(id);
-            if (partner == null)
-            {
-                return NotFound();
-            }
-
-            _context.Partners.Remove(partner);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+       
 
         private bool PartnerExists(decimal id)
         {
