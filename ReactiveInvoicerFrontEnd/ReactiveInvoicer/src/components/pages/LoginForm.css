@@ -1,0 +1,76 @@
+/* LoginForm.css */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #4B4577; /* Matches navbar background */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+  
+  .login-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #FFF;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  button[type="submit"] {
+    background-color: #575277;
+    color: white;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #6B6299; /* Slightly lighter shade for hover */
+  }
+  
+  button[type="button"] {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+  }
+  
+  button[type="button"]:hover {
+    background-color: #6B6299;
+  }
+  
+  .login-form form {
+    width: 100%;
+    max-width: 300px;
+  }  
