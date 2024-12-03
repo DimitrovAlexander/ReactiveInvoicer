@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import './LoginForm.css';
+import "./LoginForm.css";
 
 const LoginForm = ({ closeModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload or navigation
     console.log("Logging in with:", { email, password });
-    closeModal();
+
+    // Perform your login logic here
+    closeModal(); // Close the modal after successful login
   };
 
   return (
-    <div>
+    <div className="login-form">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label>Email:</label>
           <input
             type="email"
@@ -24,7 +26,7 @@ const LoginForm = ({ closeModal }) => {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
