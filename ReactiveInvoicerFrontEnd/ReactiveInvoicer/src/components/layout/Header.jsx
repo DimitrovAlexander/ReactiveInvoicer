@@ -2,15 +2,16 @@ import React from "react";
 import Navbar from "./Navbar";
 import "./Header.css";
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onLoginClick, onSettingsClick }) => {
   return (
     <header className="header">
-      <Navbar onLoginClick={onLoginClick} />
+      <Navbar onLoginClick={onLoginClick} onSettingsClick={onSettingsClick} />
     </header>
   );
 };
 
 export default Header;
+
 
 
 /*import React from 'react';
