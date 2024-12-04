@@ -1,33 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import "./AppLayout.css";
 
-const AppLayout = ({ onLoginClick }) => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
+const AppLayout = ({ onLoginClick, onSettingsClick }) => {
   return (
     <div className="app-layout">
-      <Header onLoginClick={onLoginClick} />
+      <Header onLoginClick={onLoginClick} onSettingsClick={onSettingsClick} />
       <div className="layout-content">
-        <Sidebar
-          isCollapsed={isSidebarCollapsed}
-          onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        />
+        <Sidebar />
         <main className="main-content">
           <h1>Welcome to ReactiveInvoicer!</h1>
         </main>
       </div>
-      <Footer isSidebarCollapsed={isSidebarCollapsed} />
+      <Footer />
     </div>
   );
 };
 
 export default AppLayout;
-
-
-
 
 
 
