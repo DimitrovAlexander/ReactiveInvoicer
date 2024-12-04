@@ -13,11 +13,10 @@ const Navbar = ({ onLoginClick }) => {
         </Link>
       </div>
       <div className="navbar-right">
-        <button className="navbar-button">
+        <Link to="/settings" className="navbar-button">
           <FaCog />
           <span>Settings</span>
-        </button>
-        {/* The Login button opens the modal without navigating */}
+        </Link>
         <button className="navbar-button" onClick={onLoginClick}>
           <FaSignInAlt />
           <span>Login</span>
