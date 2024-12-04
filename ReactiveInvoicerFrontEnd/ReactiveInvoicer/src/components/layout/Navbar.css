@@ -1,16 +1,16 @@
-/* Navbar.css */
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* Ensures all items are vertically aligned */
   background-color: #4B4577; 
   padding: 10px 20px;
   color: white;
 }
 
-.navbar-left {
+.navbar-left,
+.navbar-right {
   display: flex;
-  align-items: center;
+  align-items: center; /* Align items within each group */
 }
 
 .navbar-icon {
@@ -22,6 +22,7 @@
   color: white;
   display: flex;
   align-items: center;
+  gap: 5px; /* Consistent spacing between icon and text */
 }
 
 .navbar-link:hover {
@@ -30,7 +31,7 @@
 
 .navbar-right {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Even spacing between buttons */
 }
 
 .navbar-button {
@@ -39,8 +40,9 @@
   color: white;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  gap: 15px;
+  align-items: center; /* Ensure content inside the button is aligned */
+  gap: 5px; /* Consistent spacing between icon and text */
+  padding: 5px 10px; /* Uniform padding for all buttons */
 }
 
 .navbar-button:hover {
