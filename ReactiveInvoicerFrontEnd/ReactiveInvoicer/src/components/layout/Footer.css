@@ -1,52 +1,52 @@
 .footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center; /* Center content vertically */
-    width: 100%; /* Full width */
-    background-color: rgba(51, 51, 51, 0.8); /* Neutral dark with slight transparency */
-    color: #fff;
-    padding: 5px 10px; /* Minimal padding for a slim design */
-    box-sizing: border-box;
-    position: fixed; /* Sticky footer at the bottom */
-    bottom: 0; /* Align at the bottom of the viewport */
-    left: 0;
-    z-index: 1000;
-  }
-  
-  .footer nav {
-    display: flex;
+  display: flex;
+  justify-content: space-around;
+  align-items: center; /* Center content vertically */
+  width: 100%; /* Full width */
+  background-color: rgba(51, 51, 51, 0.8); /* Slightly transparent background */
+  color: #fff;
+  padding: 3px 10px; /* Minimal padding for a very slim design */
+  box-sizing: border-box;
+  position: fixed; /* Sticky footer at the bottom */
+  bottom: 0; /* Align at the bottom of the viewport */
+  left: 0;
+  z-index: 1000;
+  margin-top: 5px; /* Reduce the margin above the footer */
+}
+
+.footer nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Minimal spacing between links */
+}
+
+.footer-title {
+  font-size: 0.8rem; /* Smaller title font size */
+  margin-bottom: 2px; /* Minimal spacing below the title */
+  font-weight: bold;
+}
+
+.link {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.7rem; /* Smaller link font size */
+}
+
+.link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
     flex-direction: column;
-    gap: 3px; /* Compact spacing between links */
+    align-items: center;
+    text-align: center;
+    padding: 5px; /* Slightly larger padding for smaller screens */
   }
-  
-  .footer-title {
-    font-size: 0.9rem; /* Smaller title font size */
-    margin-bottom: 3px; /* Minimal spacing below title */
-    font-weight: bold;
+
+  .footer nav {
+    margin-bottom: 5px; /* Compact spacing between sections */
   }
-  
-  .link {
-    color: #bbb;
-    text-decoration: none;
-    font-size: 0.8rem; /* Smaller link font size */
-  }
-  
-  .link:hover {
-    color: #fff;
-    text-decoration: underline;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .footer {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 8px; /* Slightly larger padding for smaller screens */
-    }
-  
-    .footer nav {
-      margin-bottom: 8px; /* Compact spacing between sections */
-    }
-  }
-  
+}
