@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { FaHome, FaCog, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ onLoginClick }) => {
+const Navbar = ({ onLoginClick, onSettingsClick }) => {
   return (
     <div className="navbar">
       <div className="navbar-left">
@@ -13,11 +13,23 @@ const Navbar = ({ onLoginClick }) => {
         </Link>
       </div>
       <div className="navbar-right">
-        <Link to="/settings" className="navbar-button">
+        <button
+          className="navbar-button"
+          onClick={() => {
+            console.log("Settings button clicked");
+            onSettingsClick();
+          }}
+        >
           <FaCog />
           <span>Settings</span>
-        </Link>
-        <button className="navbar-button" onClick={onLoginClick}>
+        </button>
+        <button
+          className="navbar-button"
+          onClick={() => {
+            console.log("Login button clicked");
+            onLoginClick();
+          }}
+        >
           <FaSignInAlt />
           <span>Login</span>
         </button>
