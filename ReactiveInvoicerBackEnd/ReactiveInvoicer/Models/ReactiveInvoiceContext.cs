@@ -44,7 +44,7 @@ public partial class ReactiveInvoiceContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("INVOCIE_NO");
-            entity.Property(e => e.Invoice1).HasColumnName("INVOICE_");
+            entity.Property(e => e.InvoicePayableUntil).HasColumnName("INVOICE_");
             entity.Property(e => e.InvoiceNote)
                 .HasMaxLength(400)
                 .IsUnicode(false)

@@ -15,7 +15,7 @@ public partial class Invoice
 
     public decimal InvoiceType { get; set; }
 
-    public DateOnly Invoice1 { get; set; }
+    public DateOnly InvoicePayableUntil { get; set; }
 
     public string InvoiceStatus { get; set; } = null!;
 
