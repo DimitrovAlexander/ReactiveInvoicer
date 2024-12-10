@@ -1,4 +1,4 @@
-﻿using System;
+﻿        using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace ReactiveInvoicer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Partner>>> GetPartners()
         {
-            return await _context.Partners.ToListAsync();
+            return await _context.Partners.Include(p => p.Invoices).ThenInclude(i=>i.Payments).ToListAsync();
         }
 
         // GET: api/Partners/5
@@ -43,8 +43,7 @@ namespace ReactiveInvoicer.Controllers
 
 
                 var invoices = await _context.Invoices
-                    .Where(i => i.PartnerId == id)
-                    .ToListAsync();
+                    .Where(i => i.PartnerId == id).ToListAsync();
 
                 if (!invoices.Any())
                 {
