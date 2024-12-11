@@ -1,20 +1,22 @@
+/* Sidebar styles */
 .sidebar {
   width: 250px;
-  background-color: #272B2D; 
+  background-color: #272B2D;
   color: white;
   height: 100vh;
   padding: 20px;
   overflow: hidden;
   position: fixed;
-  top: 60px; 
+  top: 60px;
   left: 0;
   bottom: 0;
   transition: width 0.3s ease;
   text-align: left;
+  z-index: 1; /* Ensure sidebar stays above content */
 }
 
 .sidebar.collapsed {
-  width: 60px; 
+  width: 60px; /* Collapsed width */
 }
 
 .sidebar .toggle-btn {
@@ -34,7 +36,7 @@
 }
 
 .sidebar.collapsed .sidebar-title {
-  opacity: 0; 
+  opacity: 0; /* Hide title when collapsed */
 }
 
 .menu {
@@ -51,7 +53,7 @@
 }
 
 .menu-header:hover {
-  background-color: #575277; 
+  background-color: #575277;
 }
 
 .menu-header span {
@@ -68,8 +70,8 @@
 .submenu-item {
   padding: 10px;
   margin: 5px 0;
-  background-color: #272B2D; 
-  color: white; /* Make submenu text white */
+  background-color: #272B2D;
+  color: white;
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -79,10 +81,36 @@
 }
 
 .submenu-item:hover {
-  background-color: #575277; 
-  transform: scale(1.05); 
+  background-color: #575277;
+  transform: scale(1.05);
 }
 
 .submenu-item:focus {
   outline: none;
+}
+
+/* Layout Content Adjustments */
+.app-layout {
+  display: flex;
+  margin-top: 60px; /* To ensure it doesn't overlap the header */
+}
+
+.layout-content {
+  flex-grow: 1; /* Allow the content to take the available space */
+  transition: margin-left 0.3s ease;
+  padding: 20px;
+  overflow: auto;
+}
+
+.sidebar.collapsed ~ .layout-content {
+  margin-left: 60px; /* Adjust for collapsed sidebar */
+}
+
+/* Ensure content does not overlap the sidebar when it's expanded or collapsed */
+.layout-content {
+  margin-left: 250px; /* When sidebar is expanded */
+}
+
+.sidebar.collapsed + .layout-content {
+  margin-left: 60px; /* When sidebar is collapsed */
 }
