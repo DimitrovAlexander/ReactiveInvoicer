@@ -69,7 +69,8 @@
   padding: 10px;
   margin: 5px 0;
   background-color: #272B2D; 
-  color: white;
+  color: white; /* Make submenu text white */
+  text-decoration: none;
   border: none;
   cursor: pointer;
   text-align: left;
