@@ -4,6 +4,11 @@ import AppLayout from "./components/layout/AppLayout";
 import ReactModal from "react-modal";
 import LoginForm from "./components/pages/LoginForm";
 import SettingsForm from "./components/pages/SettingsForm";
+import CreateContractor from "./components/pages/CreateContractor";
+import ContractorViewTable from "./components/pages/ContractorViewTable"; 
+import CreateInvoice from "./components/pages/CreateInvoice"; // Нов компонент
+import InvoiceTableView from "./components/pages/InvoicesViewTable";
+
 import "./App.css";
 
 ReactModal.setAppElement("#root");
@@ -13,12 +18,10 @@ const App = () => {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
 
   const handleLoginClick = () => {
-    console.log("Login button clicked");
     setLoginOpen(true);
   };
 
   const handleSettingsClick = () => {
-    console.log("Settings button clicked");
     setSettingsOpen(true);
   };
 
@@ -37,9 +40,12 @@ const App = () => {
             />
           }
         />
+        <Route path="/create-contractor" element={<CreateContractor />} />
+        <Route path="/modify-existing" element={<ContractorViewTable />} />
+        <Route path="/create-invoice" element={<CreateInvoice />} /> {/* Нов маршрут */}
+        <Route path="/modify-invoice" element={<InvoiceTableView />} /> {/* Нов маршрут */}
       </Routes>
 
-      {/* Login Modal */}
       <ReactModal
         isOpen={isLoginOpen}
         onRequestClose={closeLoginModal}
@@ -56,7 +62,6 @@ const App = () => {
         <LoginForm closeModal={closeLoginModal} />
       </ReactModal>
 
-      {/* Settings Modal */}
       <ReactModal
         isOpen={isSettingsOpen}
         onRequestClose={closeSettingsModal}
@@ -77,25 +82,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-
-
-/*import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AppLayout from './AppLayout.jsx';  
-import './App.css';
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        {}
-        <Route path="/" element={<AppLayout />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;*/
