@@ -15,6 +15,9 @@ import {
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import Header from "../layout/Header"; // Import the Header component
+import LoginForm from './LoginForm'; // Import the LoginForm component
+import SettingsForm from './SettingsForm'; // Import the SettingsForm component
+import Sidebar from '../layout/Sidebar'; // Import Sidebar component
 
 const ContractorViewTable = () => {
   const [tableData, setTableData] = useState([]); // Start with an empty array
@@ -22,15 +25,15 @@ const ContractorViewTable = () => {
   const [selectedCounteragent, setSelectedCounteragent] = useState(null); // Track selected counteragent for details
   const [newInvoiceModalOpen, setNewInvoiceModalOpen] = useState(false); // Track if the invoice modal is open
   const [newInvoiceData, setNewInvoiceData] = useState({ id: '', amount: '', date: '' });
+  const [showLoginForm, setShowLoginForm] = useState(false); // State for showing LoginForm
+  const [showSettingsForm, setShowSettingsForm] = useState(false); // State for showing SettingsForm
 
   const handleLoginClick = () => {
-    console.log('Login clicked');
-    // Your login logic here - OPTIONAL
+    setShowLoginForm(true); // Show login form when login is clicked
   };
 
   const handleSettingsClick = () => {
-    console.log('Settings clicked');
-    // Your settings logic here - OPTIONAL
+    setShowSettingsForm(true); // Show settings form when settings is clicked
   };
 
   // Handle saving row edits
@@ -51,9 +54,7 @@ const ContractorViewTable = () => {
   // Handle deleting a row
   const handleDeleteRow = useCallback(
     (row) => {
-      if (
-        !window.confirm(`Are you sure you want to delete ${row.getValue('name')}`)
-      ) {
+      if (!window.confirm(`Are you sure you want to delete ${row.getValue('name')}`)) {
         return;
       }
       const updatedData = [...tableData];
@@ -122,78 +123,15 @@ const ContractorViewTable = () => {
 
   const columns = useMemo(
     () => [
-      {
-        accessorKey: 'id',
-        header: 'ID',
-        enableColumnOrdering: false,
-        enableEditing: false,
-        enableSorting: false,
-        size: 80,
-      },
-      {
-        accessorKey: 'egn',
-        header: 'EGN',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'bulstat',
-        header: 'BULSTAT',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'clientType',
-        header: 'Client Type',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'name',
-        header: 'Name',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'surname',
-        header: 'Surname',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'email',
-        header: 'Email',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'phone',
-        header: 'Phone',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: 'address',
-        header: 'Address',
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
+      { accessorKey: 'id', header: 'ID', enableColumnOrdering: false, enableEditing: false, enableSorting: false, size: 80 },
+      { accessorKey: 'egn', header: 'EGN', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'bulstat', header: 'BULSTAT', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'clientType', header: 'Client Type', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'name', header: 'Name', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'surname', header: 'Surname', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'email', header: 'Email', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'phone', header: 'Phone', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
+      { accessorKey: 'address', header: 'Address', size: 140, muiTableBodyCellEditTextFieldProps: ({ cell }) => ({ ...getCommonEditTextFieldProps(cell) }) },
     ],
     [getCommonEditTextFieldProps],
   );
@@ -206,107 +144,97 @@ const ContractorViewTable = () => {
   return (
     <>
       <Header onLoginClick={handleLoginClick} onSettingsClick={handleSettingsClick} /> {/* Add the header here */}
-      <MaterialReactTable
-        columns={columns}
-        data={tableData}
-        editingMode="modal"
-        enableColumnOrdering
-        enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
-        renderRowActions={({ row, table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem' }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        )}
-        onRowClick={(row) => handleRowClick(row)}
-      />
-
-      {selectedCounteragent && (
-        <Dialog open={Boolean(selectedCounteragent)} onClose={() => setSelectedCounteragent(null)}>
-          <DialogTitle>Counteragent Details</DialogTitle>
-          <DialogContent>
-            <Stack spacing={2}>
-              <Typography variant="h6">Invoice Summary</Typography>
-              {invoicesForCounteragent.length > 0 ? (
-                invoicesForCounteragent.map((invoice, index) => (
-                  <Box key={index}>
-                    <Typography>
-                      Invoice #{invoice.id} - Amount: {invoice.amount} - Date: {invoice.date}
-                    </Typography>
+      
+      <div className="app-layout">
+        <Sidebar /> {/* Sidebar component */}
+        <div className="layout-content">
+          {/* Show LoginForm if the state is true */}
+          {showLoginForm && <LoginForm closeModal={() => setShowLoginForm(false)} />}
+  
+          {/* Show SettingsForm if the state is true */}
+          {showSettingsForm && <SettingsForm closeModal={() => setShowSettingsForm(false)} />}
+  
+          {/* Main content if neither form is shown */}
+          {!showLoginForm && !showSettingsForm && (
+            <>
+              <MaterialReactTable
+                columns={columns}
+                data={tableData}
+                editingMode="modal"
+                enableColumnOrdering
+                enableEditing
+                onEditingRowSave={handleSaveRowEdits}
+                onEditingRowCancel={handleCancelRowEdits}
+                renderRowActions={({ row, table }) => (
+                  <Box sx={{ display: 'flex', gap: '1rem' }}>
+                    <Tooltip arrow placement="left" title="Edit">
+                      <IconButton onClick={() => table.setEditingRow(row)}>
+                        <Edit />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip arrow placement="right" title="Delete">
+                      <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                        <Delete />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
-                ))
-              ) : (
-                <Typography>No invoices found for this counteragent.</Typography>
+                )}
+                onRowClick={(row) => handleRowClick(row)}
+              />
+  
+              {selectedCounteragent && (
+                <Dialog open={Boolean(selectedCounteragent)} onClose={() => setSelectedCounteragent(null)}>
+                  <DialogTitle>Counteragent Details</DialogTitle>
+                  <DialogContent>
+                    <Stack spacing={2}>
+                      <Typography variant="h6">Invoice Summary</Typography>
+                      {invoicesForCounteragent.length > 0 ? (
+                        invoicesForCounteragent.map((invoice, index) => (
+                          <Box key={index}>
+                            <Typography>
+                              Invoice #{invoice.id} - Amount: {invoice.amount} - Date: {invoice.date}
+                            </Typography>
+                          </Box>
+                        ))
+                      ) : (
+                        <Typography>No invoices found for this counteragent.</Typography>
+                      )}
+                    </Stack>
+  
+                    {/* Button to open New Invoice Modal */}
+                    <Button color="primary" variant="contained" onClick={() => setNewInvoiceModalOpen(true)}>
+                      Register New Invoice
+                    </Button>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setSelectedCounteragent(null)}>Close</Button>
+                  </DialogActions>
+                </Dialog>
               )}
-            </Stack>
-
-            {/* Button to open New Invoice Modal */}
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => setNewInvoiceModalOpen(true)}
-            >
-              Register New Invoice
-            </Button>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setSelectedCounteragent(null)}>Close</Button>
-          </DialogActions>
-        </Dialog>
-      )}
-
-      {/* New Invoice Modal */}
-      <Dialog open={newInvoiceModalOpen} onClose={() => setNewInvoiceModalOpen(false)}>
-        <DialogTitle>Register New Invoice</DialogTitle>
-        <DialogContent>
-          <Stack spacing={2}>
-            <TextField
-              label="Invoice ID"
-              name="id"
-              value={newInvoiceData.id}
-              onChange={handleInvoiceChange}
-            />
-            <TextField
-              label="Amount"
-              name="amount"
-              type="number"
-              value={newInvoiceData.amount}
-              onChange={handleInvoiceChange}
-            />
-            <TextField
-              label="Date"
-              name="date"
-              type="date"
-              value={newInvoiceData.date}
-              onChange={handleInvoiceChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setNewInvoiceModalOpen(false)}>Cancel</Button>
-          <Button onClick={handleNewInvoiceSubmit} color="primary">
-            Save Invoice
-          </Button>
-        </DialogActions>
-      </Dialog>
+  
+              {/* New Invoice Modal */}
+              <Dialog open={newInvoiceModalOpen} onClose={() => setNewInvoiceModalOpen(false)}>
+                <DialogTitle>Register New Invoice</DialogTitle>
+                <DialogContent>
+                  <Stack spacing={2}>
+                    <TextField label="Invoice ID" name="id" value={newInvoiceData.id} onChange={handleInvoiceChange} />
+                    <TextField label="Amount" name="amount" type="number" value={newInvoiceData.amount} onChange={handleInvoiceChange} />
+                    <TextField label="Date" name="date" type="date" value={newInvoiceData.date} onChange={handleInvoiceChange} InputLabelProps={{ shrink: true }} />
+                  </Stack>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setNewInvoiceModalOpen(false)}>Cancel</Button>
+                  <Button onClick={handleNewInvoiceSubmit} color="primary">
+                    Save Invoice
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 };
-
-// Validation for required fields
-const validateRequired = (value) => !!value.length;
 
 export default ContractorViewTable;
