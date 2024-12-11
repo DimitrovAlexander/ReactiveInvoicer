@@ -6,9 +6,8 @@ import LoginForm from "./components/pages/LoginForm";
 import SettingsForm from "./components/pages/SettingsForm";
 import CreateContractor from "./components/pages/CreateContractor";
 import ContractorViewTable from "./components/pages/ContractorViewTable"; 
-import CreateInvoice from "./components/pages/CreateInvoice"; // Нов компонент
+import CreateInvoice from "./components/pages/CreateInvoice"; 
 import InvoiceTableView from "./components/pages/InvoicesViewTable";
-
 import "./App.css";
 
 ReactModal.setAppElement("#root");
@@ -44,6 +43,8 @@ const App = () => {
         <Route path="/modify-existing" element={<ContractorViewTable />} />
         <Route path="/create-invoice" element={<CreateInvoice />} /> {/* Нов маршрут */}
         <Route path="/modify-invoice" element={<InvoiceTableView />} /> {/* Нов маршрут */}
+        <Route path="/" element={<InvoiceTableView />} />
+        <Route path="/create-invoice" element={<CreateInvoice />} />
       </Routes>
 
       <ReactModal
