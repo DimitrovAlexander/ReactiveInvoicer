@@ -1,16 +1,34 @@
 import React, { useState } from 'react';
-import { Button, TextField, MenuItem, Select, FormControl, InputLabel, Grid, Paper, Box, Typography } from '@mui/material';
-import Header from '../layout/Header'; // Import Header
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Grid,
+  Paper,
+  Box,
+  Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+} from '@mui/material';
+import Header from '../layout/Header';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from './LoginForm'; // Import the LoginForm component
-import SettingsForm from './SettingsForm'; // Import the SettingsForm component
-import Sidebar from '../layout/Sidebar'; // Import Sidebar (if needed in the layout)
+import LoginForm from './LoginForm';
+import SettingsForm from './SettingsForm';
+import Sidebar from '../layout/Sidebar';
+
+
 
 const CreateContractor = () => {
   const navigate = useNavigate();
 
-  const [showLoginForm, setShowLoginForm] = useState(false); // State to toggle login/signup form visibility
-  const [showSettingsForm, setShowSettingsForm] = useState(false); // State to toggle settings form visibility
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showSettingsForm, setShowSettingsForm] = useState(false);
+  const [selectedIdType, setSelectedIdType] = useState('EGN'); // State for selecting ID type
   const [contractor, setContractor] = useState({
     egn: '',
     bulstat: '',
@@ -24,17 +42,10 @@ const CreateContractor = () => {
     address: '',
   });
 
-  // Handler for displaying the login form
-  const handleLoginClick = () => {
-    setShowLoginForm(true); // Show login form when login is clicked
-  };
+  // Handlers
+  const handleLoginClick = () => setShowLoginForm(true);
+  const handleSettingsClick = () => setShowSettingsForm(true);
 
-  // Handler for displaying the settings form
-  const handleSettingsClick = () => {
-    setShowSettingsForm(true); // Show settings form when settings is clicked
-  };
-
-  // Handler for contractor form input changes
   const handleChangeContractor = (event) => {
     const { name, value } = event.target;
     setContractor({
@@ -43,30 +54,28 @@ const CreateContractor = () => {
     });
   };
 
-  // Handler for contractor form submission
+  const handleIdTypeChange = (event) => setSelectedIdType(event.target.value);
+
   const handleSubmit = () => {
     console.log('Contractor Data:', contractor);
-    // Simulate saving the contractor's data (e.g., sending to an API)
   };
+
   const handleRedirect = () => {
     navigate('/create-invoice');
   };
+
   return (
     <div className="app-layout">
-      {/* Sidebar component */}
+      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main content area */}
+      {/* Main Content */}
       <div className="layout-content">
-        <Header onLoginClick={handleLoginClick} onSettingsClick={handleSettingsClick} /> {/* Use Header */}
+        <Header onLoginClick={handleLoginClick} onSettingsClick={handleSettingsClick} />
         
-        {/* Show LoginForm if the state is true */}
         {showLoginForm && <LoginForm closeModal={() => setShowLoginForm(false)} />}
-        
-        {/* Show SettingsForm if the state is true */}
         {showSettingsForm && <SettingsForm closeModal={() => setShowSettingsForm(false)} />}
-
-        {/* Contractor Form */}
+        
         {!showLoginForm && !showSettingsForm && (
           <Box sx={{ padding: 3 }}>
             <Paper elevation={2} sx={{ padding: 2 }}>
@@ -74,34 +83,50 @@ const CreateContractor = () => {
                 <Grid item xs={12} md={10} lg={10}>
                   <Typography variant="h5" gutterBottom>Contractor Registry</Typography>
 
-                  {/* Contractor Information Form */}
+                  {/* ID Type Selection */}
+                  <FormControl component="fieldset" sx={{ marginBottom: 2 }}>
+                    <FormLabel component="legend">Select ID Type</FormLabel>
+                    <RadioGroup
+                      row
+                      value={selectedIdType}
+                      onChange={handleIdTypeChange}
+                    >
+                      <FormControlLabel value="EGN" control={<Radio />} label="EGN" />
+                      <FormControlLabel value="BULSTAT" control={<Radio />} label="BULSTAT" />
+                    </RadioGroup>
+                  </FormControl>
+
+                  {/* Contractor Form */}
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        label="EGN"
-                        placeholder="EGN"
-                        fullWidth
-                        variant="outlined"
-                        margin="normal"
-                        name="egn"
-                        value={contractor.egn}
-                        onChange={handleChangeContractor}
-                        disabled={contractor.clientType === 'Legal'} // EGN should be visible only for physical persons
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <TextField
-                        label="BULSTAT"
-                        placeholder="BULSTAT"
-                        fullWidth
-                        variant="outlined"
-                        margin="normal"
-                        name="bulstat"
-                        value={contractor.bulstat}
-                        onChange={handleChangeContractor}
-                        disabled={contractor.clientType === 'Physical'} // BULSTAT should be visible only for legal persons
-                      />
-                    </Grid>
+                    {selectedIdType === 'EGN' && (
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          label="EGN"
+                          placeholder="EGN"
+                          fullWidth
+                          variant="outlined"
+                          margin="normal"
+                          name="egn"
+                          value={contractor.egn}
+                          onChange={handleChangeContractor}
+                        />
+                      </Grid>
+                    )}
+                    {selectedIdType === 'BULSTAT' && (
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          label="BULSTAT"
+                          placeholder="BULSTAT"
+                          fullWidth
+                          variant="outlined"
+                          margin="normal"
+                          name="bulstat"
+                          value={contractor.bulstat}
+                          onChange={handleChangeContractor}
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item xs={12} md={6}>
                       <FormControl fullWidth variant="outlined" margin="normal">
                         <InputLabel>Client Type</InputLabel>
@@ -213,7 +238,6 @@ const CreateContractor = () => {
                     Save Contractor
                   </Button>
 
-                  {/* Invoice Section */}
                   <Typography variant="h6" sx={{ marginTop: 3 }}>Invoices</Typography>
                   <Button variant="contained" color="secondary" fullWidth onClick={handleRedirect}>
                     Register New Invoice
