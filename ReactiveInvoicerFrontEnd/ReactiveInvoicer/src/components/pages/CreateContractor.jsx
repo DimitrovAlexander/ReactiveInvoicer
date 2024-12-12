@@ -48,7 +48,9 @@ const CreateContractor = () => {
     console.log('Contractor Data:', contractor);
     // Simulate saving the contractor's data (e.g., sending to an API)
   };
-
+  const handleRedirect = () => {
+    navigate('/create-invoice');
+  };
   return (
     <div className="app-layout">
       {/* Sidebar component */}
@@ -213,7 +215,7 @@ const CreateContractor = () => {
 
                   {/* Invoice Section */}
                   <Typography variant="h6" sx={{ marginTop: 3 }}>Invoices</Typography>
-                  <Button variant="contained" color="secondary" fullWidth>
+                  <Button variant="contained" color="secondary" fullWidth onClick={handleRedirect}>
                     Register New Invoice
                   </Button>
                 </Grid>

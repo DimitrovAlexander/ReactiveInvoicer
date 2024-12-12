@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
+import axios from "axios"
+
 
 const LoginForm = ({ closeModal }) => {
   const [isLogin, setIsLogin] = useState(true); // State to toggle between Login and Signup
@@ -7,10 +9,26 @@ const LoginForm = ({ closeModal }) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState(""); // For Signup
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      console.log("Logging in with:", { email, password });
+      console.log("Logging in with:", { username, password });
+
+      try {
+        const result = await axios.post("https://localhost:7024/api/Auth/login", {
+          username: username,
+          password: password
+        })
+
+        const token = result.data.token
+        localStorage.setItem("token", token)
+        console.log(localStorage.getItem("token"));
+
+        location.replace("/")
+      } catch {
+        console.error("KUR")
+      }
+
     } else {
       console.log("Signing up with:", { username, email, password });
     }
@@ -21,26 +39,27 @@ const LoginForm = ({ closeModal }) => {
     <div className="login-form">
       <h2>{isLogin ? "Login" : "Signup"}</h2>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required={!isLogin} // Required only for signup
+          />
+        </div>
         {!isLogin && (
           <div className="form-group">
-            <label>Username:</label>
+            <label>Email:</label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required={!isLogin} // Required only for signup
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
         )}
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+
         <div className="form-group">
           <label>Password:</label>
           <input

@@ -12,6 +12,23 @@ namespace ReactiveInvoicer
 
             // Add services to the container.
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("cors1",
+                     builder => builder
+                     .AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     );
+
+                options.AddPolicy("cors2",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(hostName => true));
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -19,7 +36,7 @@ namespace ReactiveInvoicer
             builder.Services.AddControllers()
                   .AddJsonOptions(options =>
                   {
-                      options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                      options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
                       options.JsonSerializerOptions.WriteIndented = true;
                   });
             builder.Services.AddDbContext<ReactiveInvoiceContext>(options =>
@@ -45,6 +62,8 @@ namespace ReactiveInvoicer
 
 
             app.MapControllers();
+            app.UseCors("cors1");
+            app.UseCors("cors2");
 
             app.Run();
         }

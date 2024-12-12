@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import axios from "axios"
 import { MaterialReactTable } from 'material-react-table';
 import {
   Box,
@@ -51,6 +52,16 @@ const InvoiceTableView = () => {
 
   // Sidebar state
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+
+  async function getData() {
+    const data = await axios.get("https://localhost:7024/api/Invoices")
+    setInvoices(data.data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
@@ -121,13 +132,13 @@ const InvoiceTableView = () => {
   };
 
   const columns = useMemo(() => [
-    { accessorKey: 'number', header: 'Invoice Number' },
-    { accessorKey: 'type', header: 'Type' },
-    { accessorKey: 'date', header: 'Date' },
-    { accessorKey: 'dueDate', header: 'Due Date' },
-    { accessorKey: 'amount', header: 'Amount', Cell: ({ cell }) => `$${cell.getValue()}` },
-    { accessorKey: 'status', header: 'Status' },
-    { accessorKey: 'counteragent', header: 'Counteragent', Cell: ({ cell }) => cell.getValue().name },
+    { accessorKey: 'invocieNo', header: 'Invoice Number' },
+    { accessorKey: 'invoiceTypeName', header: 'Type' },
+    { accessorKey: 'invocieDate', header: 'Date' },
+    { accessorKey: 'invoicePayableUntil', header: 'Due Date' },
+    { accessorKey: 'invoiceValue', header: 'Amount'},
+    { accessorKey: 'invoiceStatus', header: 'Status' },
+    { accessorKey: 'partnerName', header: 'Counteragent'},
   ], []);
 
   const handleRowClick = (row) => {

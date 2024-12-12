@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios"
 import {
   Button,
   TextField,
@@ -48,6 +49,8 @@ function App() {
     payments: [],
   });
 
+
+
   const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
   const [openStatusDialog, setOpenStatusDialog] = useState(false);
   const [invoiceToEdit, setInvoiceToEdit] = useState(null); // For editing existing invoices
@@ -67,7 +70,7 @@ function App() {
   };
 
   // Submit or update an invoice
-  const handleSubmitInvoice = () => {
+  const handleSubmitInvoice = async () => {
     if (invoiceToEdit) {
       // If editing, update the invoice
       const updatedInvoices = invoices.map((inv) =>
@@ -76,6 +79,22 @@ function App() {
       setInvoices(updatedInvoices);
     } else {
       // Add new invoice
+      console.log(invoice);
+      await axios.post("https://localhost:7024/api/Invoices", {
+        "partnerId": 0,
+        "partnerName": "string",
+        "partnerSurname": "string",
+        "partnerLastname": "string",
+        "partnerEmail": "string",
+        "partnerPhone": "string",
+        "partnerAddress": "string",
+        "invoiceTypeId": 0,
+        "invoiceNo": "string",
+        "invoiceDate": "2024-12-12",
+        "payableUntil": "2024-12-12",
+        "invoiceValue": 0,
+        "invoiceNote": "string"
+      })
       setInvoices([...invoices, invoice]);
     }
     setInvoice({
@@ -140,16 +159,16 @@ function App() {
   return (
     <>
       <Header onLoginClick={handleLoginClick} onSettingsClick={handleSettingsClick} /> {/* Add the header here */}
-      
+
       {/* Show LoginForm if the state is true */}
       {showLoginForm && <LoginForm closeModal={() => setShowLoginForm(false)} />}
-      
+
       {/* Show SettingsForm if the state is true */}
       {showSettingsForm && <SettingsForm closeModal={() => setShowSettingsForm(false)} />}
-      
+
       <div className="app-layout">
         <Sidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} /> {/* Sidebar component */}
-        
+
         <div className="layout-content">
           {/* Main content if neither form is shown */}
           {!showLoginForm && !showSettingsForm && (
@@ -158,7 +177,7 @@ function App() {
                 <Grid container spacing={2} justifyContent="center">
                   <Grid item xs={12} md={10} lg={10}>
                     <Typography variant="h5" gutterBottom>Invoice Management</Typography>
-                    
+
                     {/* Invoice Creation Form */}
                     <Typography variant="h6" sx={{ marginTop: 3 }}>Create New Invoice</Typography>
                     <Grid container spacing={2}>
