@@ -1,6 +1,6 @@
 import { useState } from "react";
-import InterviewsRead from "./crud/InterviewsRead";
-import InterviewsCreate from "./crud/InterviewsCreate";
+import InvoicesRead from "./crud/InvoicesRead";
+import InvoiceCreate from "./crud/InvoiceCreate";
 
 export default function InterviewsPage() {
 	const [refreshCounter, setRefreshCounter] = useState(0);
@@ -11,8 +11,8 @@ export default function InterviewsPage() {
 
 	return (
 		<div>
-			<InterviewsRead key={refreshCounter}/>
-			<InterviewsCreate refresh={refresh}/>
+			<InvoicesRead key={refreshCounter}/>
+			<InvoiceCreate refresh={refresh}/>
 		</div>
 	);
 }

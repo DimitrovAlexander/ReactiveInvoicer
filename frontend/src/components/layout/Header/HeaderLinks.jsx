@@ -15,14 +15,12 @@ export default function HeaderLinks() {
 						<HeaderLink to={"/"} text={"Home"} />
 					</li>
 					<li>
-						<HeaderLink to={"/employees"} text={"Employees"} />
+						<HeaderLink to={"/employees"} text={"Partners"} />
 					</li>
 					<li>
-						<HeaderLink to={"/interviews"} text={"Interviews"} />
+						<HeaderLink to={"/invoices"} text={"Invoices"} />
 					</li>
-					<li>
-						<HeaderLink to={"/positions"} text={"Positions"} />
-					</li>
+					
 					<li onClick={logout}>
 						<p>Logout</p>
 					</li>

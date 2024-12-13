@@ -1,14 +1,15 @@
 import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./components/pages/Home";
-import InterviewsPage from "./components/pages/Interviews/InterviewsPage";
+import InterviewsPage from "./components/pages/Invoices/InvoicesPage";
 import EmployeesPage from "./components/pages/Employees/EmployeesPage";
 import PositionsPage from "./components/pages/Positions/PositionsPage";
 import Login from "./components/pages/Login";
-import InterviewPage from "./components/pages/Interviews/InterviewsOnePage";
-import InterviewsOnePage from "./components/pages/Interviews/InterviewsOnePage";
+import InvoicesPage from "./components/pages/Invoices/InvoicesPage";
+import InvoicesOnePage from "./components/pages/Invoices/InvoicesOnePage";
 import EmployeesOnePage from "./components/pages/Employees/EmployeesOnePage";
 import PositionsOnePage from "./components/pages/Positions/PositionsOnePage";
+import InvoicesRead from "./components/pages/Invoices/crud/InvoicesRead";
 
 function App() {
 	return (
@@ -17,14 +18,11 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 
-					<Route path="/employees" element={<EmployeesPage />} />
-					<Route path="/employees/:id" element={<EmployeesOnePage />} />
+					<Route path="/partners" element={<EmployeesPage />} />
+					<Route path="/partners/:id" element={<EmployeesOnePage />} />
 
-					<Route path="/interviews" element={<InterviewsPage />} />
-					<Route path="/interviews/:id" element={<InterviewsOnePage />} />
-
-					<Route path="/positions" element={<PositionsPage />} />
-					<Route path="/positions/:id" element={<PositionsOnePage />} />
+					<Route path="/invoices" element={<InvoicesPage />} />
+					<Route path="/invoice/:id" element={<InvoicesOnePage/>} />
 
 					<Route path="/login" element={<Login />} />
 				</Routes>

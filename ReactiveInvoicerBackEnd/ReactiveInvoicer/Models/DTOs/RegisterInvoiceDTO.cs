@@ -11,8 +11,8 @@
         public string? PartnerAddress { get; set; }
         public int InvoiceTypeId { get; set; } // ID на типа фактура
         public string InvoiceNo { get; set; } // Номер на фактура
-        public DateOnly InvoiceDate { get; set; } // Дата на фактура
-        public DateOnly PayableUntil { get; set; } // Платима до
+        public DateTime InvoiceDate { get; set; } // Дата на фактура
+        public DateTime PayableUntil { get; set; } // Платима до
         public decimal InvoiceValue { get; set; } // Стойност
         public string? InvoiceNote { get; set; } // Коментар
     }
