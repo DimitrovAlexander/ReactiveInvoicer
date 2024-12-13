@@ -50,25 +50,6 @@
     width: 100%;
   }
   
-  button[type="submit"] {
-    background-color: #575277;
-    color: white;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #6B6299; /* Slightly lighter shade for hover */
-  }
-  
-  button[type="button"] {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-  }
-  
-  button[type="button"]:hover {
-    background-color: #6B6299;
-  }
-  
   .login-form form {
     width: 100%;
     max-width: 300px;
