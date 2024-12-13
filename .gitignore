@@ -397,3 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 ReactiveInvoicerBackEnd/ReactiveInvoicer/appsettings.Development.json
+ReactiveInvoicerBackEnd/ReactiveInvoicer/appsettings.Development.json
