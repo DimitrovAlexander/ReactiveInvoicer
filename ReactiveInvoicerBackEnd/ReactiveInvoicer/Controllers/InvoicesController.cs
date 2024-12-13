@@ -35,8 +35,8 @@ namespace ReactiveInvoicer.Controllers
                 .Select(i => new
                 {
                     i.InvoiceId,
-                    i.InvocieNo,
-                    i.InvocieDate,
+                    i.InvoiceNo,
+                    i.InvoiceDate,
                     i.InvoicePayableUntil,
                     i.InvoiceStatus,
                     i.InvoiceValue,
@@ -67,17 +67,18 @@ namespace ReactiveInvoicer.Controllers
 
             // Изчисляване на дни закъснение
             int overdueDays = 0;
-            if (remainingBalance > 0 && DateOnly.FromDateTime(DateTime.UtcNow) > invoice.InvoicePayableUntil)
+            if (remainingBalance > 0 && (DateTime.UtcNow) > invoice.InvoicePayableUntil)
             {
-                overdueDays = (DateOnly.FromDateTime(DateTime.UtcNow).DayNumber - invoice.InvoicePayableUntil.DayNumber);
+                overdueDays = (DateTime.UtcNow.Date - invoice.InvoicePayableUntil.Date).Days;
             }
 
-            // Създаване на обект с резултатите
-            var details = new
+
+                // Създаване на обект с резултатите
+                var details = new
             {
                 invoice.InvoiceId,
-                invoice.InvocieNo,
-                invoice.InvocieDate,
+                invoice.InvoiceNo,
+                invoice.InvoiceDate,
                 invoice.InvoicePayableUntil,
                 invoice.InvoiceValue,
                 TotalPayments = totalPayments,
@@ -110,8 +111,8 @@ namespace ReactiveInvoicer.Controllers
 
             // Актуализиране на данните за фактурата
             invoice.InvoiceType = model.InvoiceTypeId;
-            invoice.InvocieNo = model.InvoiceNo;
-            invoice.InvocieDate = model.InvoiceDate;
+            invoice.InvoiceNo = model.InvoiceNo;
+            invoice.InvoiceDate = model.InvoiceDate;
             invoice.InvoicePayableUntil = model.PayableUntil;
             invoice.InvoiceValue = model.InvoiceValue;
             invoice.InvoiceNote = model.InvoiceNote;
@@ -168,8 +169,8 @@ namespace ReactiveInvoicer.Controllers
             {
                 PartnerId = partner.PartnerId,
                 InvoiceType = model.InvoiceTypeId,
-                InvocieNo = model.InvoiceNo,
-                InvocieDate = model.InvoiceDate,
+                InvoiceNo = model.InvoiceNo,
+                InvoiceDate = model.InvoiceDate,
                 InvoicePayableUntil = model.PayableUntil,
                 InvoiceStatus = "N", // Установяваме статуса на "Неплатена"
                 InvoiceValue = model.InvoiceValue,
@@ -192,7 +193,7 @@ namespace ReactiveInvoicer.Controllers
                 return NotFound($"Invoice with ID {model.InvoiceId} not found.");
 
             // Валидация на датата на плащане
-            if (model.PaymentDate < invoice.InvocieDate)
+            if (model.PaymentDate < invoice.InvoiceDate)
                 return BadRequest("Payment date cannot be earlier than the invoice date.");
 
             // Валидация на сумата на плащане
@@ -222,7 +223,7 @@ namespace ReactiveInvoicer.Controllers
         public async Task<IActionResult> GetOverdueInvoices()
         {
             // Изчисли текущата дата
-            var currentDate = DateOnly.Parse(DateTime.UtcNow.Date.ToShortDateString());
+            DateTime currentDate =(DateTime.UtcNow.Date);
 
             // Извличане на фактури с недостатъчни плащания и изтекла дата за плащане
             var overdueInvoices = await _context.Invoices
@@ -233,13 +234,13 @@ namespace ReactiveInvoicer.Controllers
                 .Select(i => new
                 {
                     i.InvoiceId,
-                    i.InvocieNo,
-                    i.InvocieDate,
+                    i.InvoiceNo,
+                    i.InvoiceDate,
                     i.InvoicePayableUntil,
                     i.InvoiceValue,
                     TotalPayments = i.Payments.Sum(p => p.PaymentValue),
                     RemainingBalance = i.InvoiceValue - i.Payments.Sum(p => p.PaymentValue),
-                    OverdueDays = (currentDate.DayNumber - i.InvoicePayableUntil.DayNumber),
+                    OverdueDays = (currentDate - i.InvoicePayableUntil).Days,
                     PartnerName = i.Partner.PartnertFullname,
                     InvoiceStatus = i.InvoiceStatus
                 })

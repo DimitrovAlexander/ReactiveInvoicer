@@ -39,8 +39,8 @@ public partial class ReactiveInvoiceContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("INVOICE_ID");
-            entity.Property(e => e.InvocieDate).HasColumnName("INVOCIE_DATE");
-            entity.Property(e => e.InvocieNo)
+            entity.Property(e => e.InvoiceDate).HasColumnName("INVOCIE_DATE");
+            entity.Property(e => e.InvoiceNo)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("INVOCIE_NO");

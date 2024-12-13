@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReactiveInvoicer.Models;
+using ReactiveInvoicer.Models.DTOs;
 
 namespace ReactiveInvoicer.Controllers
 {
@@ -22,134 +23,194 @@ namespace ReactiveInvoicer.Controllers
 
         // GET: api/Partners
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Partner>>> GetPartners()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchPartners(
+    [FromQuery] string? egn,
+    [FromQuery] string? bulstat,
+    [FromQuery] string? clientType,
+    [FromQuery] string? fullName,
+    [FromQuery] string? name,
+    [FromQuery] string? email)
         {
-            return await _context.Partners.Include(p => p.Invoices).ThenInclude(i=>i.Payments).ToListAsync();
+            var query = _context.Partners.AsQueryable();
+
+           
+            // Извличане на резултатите
+            var result = await query
+                .Select(p => new
+                {
+                    p.PartnerId,
+                    p.PartnertFullname,
+                    p.PartnerEgn,
+                    p.PartnerBulstat,
+                    p.PartnerEmail,
+                    p.PartnerPhone,
+                    p.PartnerAddress
+                })
+                .ToListAsync();
+
+            return Ok(result);
         }
 
         // GET: api/Partners/5
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPartnerSummary(decimal id)
+        [HttpGet("{partnerId}")]
+        public async Task<IActionResult> GetPartnerDetails(decimal partnerId)
         {
-            try
+            // Намиране на контрагент
+            var partner = await _context.Partners.FindAsync(partnerId);
+
+            if (partner == null)
+                return NotFound($"Partner with ID {partnerId} not found.");
+
+            // Създаване на обект с данните за контрагента
+            var result = new
             {
+                partner.PartnerId,
+                partner.PartnerEgn,
+                partner.PartnerBulstat,
 
-                var partner = await _context.Partners.FindAsync(id);
-                if (partner == null)
-                {
-                    return NotFound(new { message = "Partner not found" });
-                }
+                partner.PartnerName,
+                partner.PartnerSurname,
+                partner.PartnerLastname,
+                partner.PartnertFullname,
+                partner.PartnerEmail,
+                partner.PartnerPhone,
+                partner.PartnerAddress
+            };
 
-
-                var invoices = await _context.Invoices
-                    .Where(i => i.PartnerId == id).ToListAsync();
-
-                if (!invoices.Any())
-                {
-                    return Ok(new
-                    {
-                        Partner = new
-                        {
-                            partner.PartnerId,
-                            partner.PartnertFullname,
-                            partner.PartnerEmail,
-                            partner.PartnerPhone,
-                        },
-                        InvoicesSummary = "No invoices found for this partner."
-                    });
-                }
-
-                var totalInvoices = invoices.Count;
-                var totalInvoiceValue = invoices.Sum(i => i.InvoiceValue);
-                var paidInvoices = invoices.Count(i => i.InvoiceStatus == "P"); 
-                var unpaidInvoices = totalInvoices - paidInvoices;
-
-
-                return Ok(new
-                {
-                    Partner = new
-                    {
-                        partner.PartnerId,
-                        partner.PartnertFullname,
-                        partner.PartnerEmail,
-                        partner.PartnerPhone,
-                    },
-                    InvoicesSummary = new
-                    {
-                        TotalInvoices = totalInvoices,
-                        TotalInvoiceValue = totalInvoiceValue,
-                        PaidInvoices = paidInvoices,
-                        UnpaidInvoices = unpaidInvoices
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-               
-                return StatusCode(500, new { message = "An error occurred", error = ex.Message });
-            }
-
+            return Ok(result);
         }
+
 
         // PUT: api/Partners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPartner(decimal id, Partner partner)
+        [HttpPut("{partnerId}")]
+        public async Task<IActionResult> UpdatePartner(decimal partnerId, [FromBody] UpdatePartnerDTO model)
         {
-            if (id != partner.PartnerId)
+            // Намиране на контрагента
+            var partner = await _context.Partners.FindAsync(partnerId);
+
+            if (partner == null)
+                return NotFound($"Partner with ID {partnerId} not found.");
+
+            // Валидация на типа клиент
+            
+
+            // Актуализиране на данните за контрагента
+            partner.PartnerEgn = model.PartnerEgn;
+            partner.PartnerBulstat = model.PartnerBulstat;
+
+            partner.PartnerName = model.PartnerName;
+            partner.PartnerSurname = model.PartnerSurname;
+            partner.PartnerLastname = model.PartnerLastname;
+            partner.PartnerEmail = model.PartnerEmail;
+            partner.PartnerPhone = model.PartnerPhone;
+            partner.PartnerAddress = model.PartnerAddress;
+
+            // Обновяване на пълното име, ако е физическо лице
+            if (model.PartnerEgn != "")
             {
-                return BadRequest();
+                partner.PartnertFullname = $"{model.PartnerName} {model.PartnerSurname} {model.PartnerLastname}".Trim();
+            }
+            else
+            {
+                partner.PartnertFullname = model.PartnerName; // За юридическо лице
             }
 
-            _context.Entry(partner).State = EntityState.Modified;
+            // Записване на промените
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PartnerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(new { Message = "Partner updated successfully." });
         }
+        [HttpGet("details/{partnerId}")]
+        public async Task<IActionResult> GetPartnerDetailsWithInvoices(decimal partnerId)
+        {
+            // Намери контрагента
+            var partner = await _context.Partners
+                .Include(p => p.Invoices) // Зареждане на фактурите
+                .ThenInclude(i => i.Payments) // Зареждане на плащанията по фактурите
+                .FirstOrDefaultAsync(p => p.PartnerId == partnerId);
+
+            if (partner == null)
+                return NotFound($"Partner with ID {partnerId} not found.");
+
+            // Обобщена информация за фактурите
+            var totalInvoices = partner.Invoices.Count;
+            var totalInvoiceValue = partner.Invoices.Sum(i => i.InvoiceValue);
+            var paidInvoices = partner.Invoices.Count(i => i.InvoiceStatus == "P");
+            var unpaidInvoices = partner.Invoices.Count(i => i.InvoiceStatus == "U");
+            var totalRemainingBalance = partner.Invoices
+                .Where(i => i.InvoiceStatus == "U") // Неплатени фактури
+                .Sum(i => i.InvoiceValue - i.Payments.Sum(p => p.PaymentValue)); // Остатък по тях
+
+            // Данни за контрагента и фактурите
+            var result = new
+            {
+                partner.PartnerId,
+                partner.PartnerEgn,
+                partner.PartnerBulstat,
+                partner.PartnerName,
+                partner.PartnerSurname,
+                partner.PartnerLastname,
+                partner.PartnertFullname,
+                partner.PartnerEmail,
+                partner.PartnerPhone,
+                partner.PartnerAddress,
+                InvoiceSummary = new
+                {
+                    TotalInvoices = totalInvoices,
+                    TotalInvoiceValue = totalInvoiceValue,
+                    PaidInvoices = paidInvoices,
+                    UnpaidInvoices = unpaidInvoices,
+                    TotalRemainingBalance = totalRemainingBalance
+                }
+            };
+
+            return Ok(result);
+        }
+
 
         // POST: api/Partners
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Partner>> PostPartner(Partner partner)
+        [HttpPost("{partnerId}/invoices")]
+        public async Task<IActionResult> RegisterInvoiceForPartner(decimal partnerId, [FromBody] RegisterInvoiceForPartnerDTO model)
         {
-            _context.Partners.Add(partner);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (PartnerExists(partner.PartnerId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            // Намиране на контрагента
+            var partner = await _context.Partners.FindAsync(partnerId);
 
-            return CreatedAtAction("GetPartner", new { id = partner.PartnerId }, partner);
+            if (partner == null)
+                return NotFound($"Partner with ID {partnerId} not found.");
+
+            // Валидация на данните за фактурата
+            if (model.PayableUntil < model.InvoiceDate)
+                return BadRequest("The payable date cannot be earlier than the invoice date.");
+
+            if (model.InvoiceValue <= 0)
+                return BadRequest("Invoice value must be greater than zero.");
+
+            // Създаване на нова фактура
+            var invoice = new Invoice
+            {
+                PartnerId = partner.PartnerId,
+                InvoiceType = model.InvoiceTypeId,
+                InvoiceNo = model.InvoiceNo,
+                InvoiceDate = model.InvoiceDate,
+                InvoicePayableUntil = model.PayableUntil,
+                InvoiceValue = model.InvoiceValue,
+                InvoiceNote = model.InvoiceNote,
+                InvoiceStatus = "U" // По подразбиране статусът е "Неплатена"
+            };
+
+            // Добавяне във базата данни
+            _context.Invoices.Add(invoice);
+            await _context.SaveChangesAsync();
+
+            // Връщане на успешен резултат
+            return Ok(new { Message = "Invoice registered successfully.", InvoiceId = invoice.InvoiceId });
         }
-
         // DELETE: api/Partners/5
-       
+
 
         private bool PartnerExists(decimal id)
         {

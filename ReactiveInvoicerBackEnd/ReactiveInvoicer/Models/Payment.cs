@@ -9,7 +9,7 @@ public partial class Payment
 
     public decimal? InvoiceId { get; set; }
 
-    public DateOnly PaymentDate { get; set; }
+    public DateTime PaymentDate { get; set; }
 
     public decimal PaymentValue { get; set; }
 

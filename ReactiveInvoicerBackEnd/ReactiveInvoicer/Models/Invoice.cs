@@ -9,13 +9,13 @@ public partial class Invoice
 
     public decimal PartnerId { get; set; }
 
-    public string InvocieNo { get; set; } = null!;
+    public string InvoiceNo { get; set; } = null!;
 
-    public DateOnly InvocieDate { get; set; }
+    public DateTime InvoiceDate { get; set; }
 
     public decimal InvoiceType { get; set; }
 
-    public DateOnly InvoicePayableUntil { get; set; }
+    public DateTime InvoicePayableUntil { get; set; }
 
     public string InvoiceStatus { get; set; } = null!;
 
