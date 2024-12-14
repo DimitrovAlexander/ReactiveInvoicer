@@ -4,6 +4,8 @@
     {
         public decimal? PartnerId { get; set; } // ID на съществуващ контрагент (ако има)
         public string? PartnerName { get; set; } // За нов контрагент
+        public string? PartnerEgn { get; set; }
+        public string? PartnerBulstat { get; set; }
         public string? PartnerSurname { get; set; }
         public string? PartnerLastname { get; set; }
         public string? PartnerEmail { get; set; }

@@ -151,6 +151,8 @@ namespace ReactiveInvoicer.Controllers
                 // Създаване на нов контрагент
                 partner = new Partner
                 {
+                    PartnerBulstat=model.PartnerBulstat,
+                    PartnerEgn=model.PartnerEgn,
                     PartnerName = model.PartnerName,
                     PartnerSurname = model.PartnerSurname,
                     PartnerLastname = model.PartnerLastname,
