@@ -21,11 +21,13 @@ export default function InvoiceEdit() {
 
             setInvoiceType(invoice.invoiceTypeId === 1 ? "income" : "expense");
             setInvoiceNo(invoice.invoiceNo);
-            setInvoiceDate(invoice.invoiceDate.substring(0, 10));
-            setInvoicePayableUntil(invoice.PayableUntil.substring(0, 10));
+            setInvoiceDate(invoice.invoiceDate?.substring(0, 10));
+            setInvoicePayableUntil(invoice.invoicePayableUntil?.substring(0, 10));
             setInvoiceValue(invoice.invoiceValue);
             setInvoiceNote(invoice.invoiceNote);
         } catch (error) {
+            console.log(error);
+            
             alert("Failed to load invoice data: " + error.response?.data?.message || "Unknown error");
         }
     }

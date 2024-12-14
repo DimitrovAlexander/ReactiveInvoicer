@@ -1,185 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { getApi } from "../../../../api/apiInstance";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
+import { InvoicesTableRow } from "../../Invoices/table/InvoicesTableRow";
 
 const PartnersEdit = () => {
-  const api = getApi();
-  const { id } = useParams();
-  const [partner, setPartner] = useState({
-    type: '',
-    egn: '',
-    bulstat: '',
-    name: '',
-    companyName: '',
-    email: '',
-    phone: '',
-    address: '',
-  });
+	const api = getApi();
+	const { id } = useParams();
 
-  useEffect(() => {
-    const loadPartner = async () => {
-      try {
-        const response = await api.get(`partners/${id}`);
-        const data = response.data;
+	const [invoices, setInvoices] = useState([]);
 
-        setPartner({
-            type: data.type,
-            egn: data.partnerEgn || '',
-            bulstat: data.partnerBulstat || '',
-            name: data.name || '',
-            companyName: data.companyName || '',
-            email: data.partnerEmail || '',
-            phone: data.partnerPhone || '',
-            address: data.partnerAddress || '',
-          });
-      } catch (error) {
-        alert("Failed to load partner data: " + (error.response?.data?.message || "Unknown error"));
-      }
-    };
+	const [partnerEgn, setPartnerEgn] = useState("");
+	const [partnerBulstat, setPartnerBulstat] = useState("");
+	const [partnerName, setPartnerName] = useState("");
+	const [partnerSurname, setPartnerSurname] = useState("");
+	const [partnerLastname, setPartnerLastname] = useState("");
+	const [partnerEmail, setPartnerEmail] = useState("");
+	const [partnerPhone, setPartnerPhone] = useState("");
+	const [partnerAddress, setPartnerAddress] = useState("");
 
-    loadPartner();
-  }, [id]);
+	useEffect(() => {
+		const loadPartner = async () => {
+			try {
+				const response = await api.get(`partners/${id}`);
+				const data = response.data;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPartner({ ...partner, [name]: value });
-  };
+				setInvoices(data.invoices);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await api.put(`partners/${id}`, {
-        type: partner.type,
-        egn: partner.type === 'Individual' ? partner.egn : undefined,
-        bulstat: partner.type === 'Company' ? partner.bulstat : undefined,
-        name: partner.type === 'Individual' ? partner.name : undefined,
-        companyName: partner.type === 'Company' ? partner.companyName : undefined,
-        email: partner.email,
-        phone: partner.phone,
-        address: partner.address,
-      });
+				setPartnerEgn(data.partnerEgn);
+				setPartnerBulstat(data.partnerBulstat);
+				setPartnerName(data.partnerName);
+				setPartnerSurname(data.partnerSurname);
+				setPartnerLastname(data.partnerLastname);
+				setPartnerEmail(data.partnerEmail);
+				setPartnerPhone(data.partnerPhone);
+				setPartnerAddress(data.partnerAddress);
+			} catch (error) {
+				alert("Failed to load partner data: " + (error.response?.data?.message || "Unknown error"));
+			}
+		};
 
-    } catch (error) {
-      alert(error.response?.data?.message || "Error updating partner");
-    }
-  };
+		loadPartner();
+	}, [id]);
 
-  return (
-    <form className="flex flex-col items-center bg-base-200 p-6 rounded-lg shadow-md w-96" onSubmit={handleSubmit}>
-      <h2 className="text-lg font-bold mb-4">Edit Partner</h2>
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			await api.put(`partners/${id}`, {
+				partnerEgn: partnerEgn,
+				partnerBulstat: partnerBulstat,
+				partnerName: partnerName,
+				partnerSurname: partnerSurname,
+				partnerLastname: partnerLastname,
+				partnerEmail: partnerEmail,
+				partnerPhone: partnerPhone,
+				partnerAddress: partnerAddress,
+			});
+		} catch (error) {
+			alert(error.response?.data?.message || "Error updating partner");
+		}
+	};
 
-      <div className="form-control w-full mb-4">
-        <label className="label">
-          <span className="label-text">Type:</span>
-        </label>
-        <select
-          name="type"
-          value={partner.type}
-          onChange={handleChange}
-          className="select select-bordered w-full"
-          required
-        >
-          <option value="">Select Type</option>
-          <option value="Individual">Individual</option>
-          <option value="Company">Company</option>
-        </select>
-      </div>
-
-      {partner.type === 'Individual' && (
-        <div className="form-control w-full mb-4">
-          <label className="label">
-            <span className="label-text">EGN:</span>
-          </label>
-          <input
-            type="text"
-            name="egn"
-            value={partner.egn}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-            required
-            pattern="\d{10}"
-            title="EGN must be a 10-digit number"
-          />
-        </div>
-      )}
-
-      {partner.type === 'Company' && (
-        <div className="form-control w-full mb-4">
-          <label className="label">
-            <span className="label-text">BULSTAT:</span>
-          </label>
-          <input
-            type="text"
-            name="bulstat"
-            value={partner.bulstat}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-            required
-            pattern="\d{9}"
-            title="BULSTAT must be a 9-digit number"
-          />
-        </div>
-      )}
-
-      <div className="form-control w-full mb-4">
-        <label className="label">
-          <span className="label-text">{partner.type === 'Individual' ? 'Full Name:' : 'Company Name:'}</span>
-        </label>
-        <input
-          type="text"
-          name={partner.type === 'Individual' ? 'name' : 'companyName'}
-          value={partner.type === 'Individual' ? partner.name : partner.companyName}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
-      </div>
-
-      <div className="form-control w-full mb-4">
-        <label className="label">
-          <span className="label-text">Email:</span>
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={partner.email}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
-      </div>
-
-      <div className="form-control w-full mb-4">
-        <label className="label">
-          <span className="label-text">Phone:</span>
-        </label>
-        <input
-          type="tel"
-          name="phone"
-          value={partner.phone}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
-      </div>
-
-      <div className="form-control w-full mb-4">
-        <label className="label">
-          <span className="label-text">Address:</span>
-        </label>
-        <input
-          type="text"
-          name="address"
-          value={partner.address}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-        />
-      </div>
-
-      <button type="submit" className="btn btn-neutral w-full">
-        Update Partner
-      </button>
-    </form>
-  );
+	return (
+		<div>
+			<div className="overflow-x-auto">
+				<table className="table table-zebra">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Invoice Info</th>
+							<th>Invoice Date</th>
+							<th>Payment due</th>
+							<th>Payments Info</th>
+							<th>Status</th>
+							<th>Partner</th>
+							<th>Add Payment</th>
+							<th>Details</th>
+							<th>Edit Invoice</th>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{invoices.map((invoice, index) => {
+							invoice.partnerName = `${partnerName} ${partnerSurname} ${partnerLastname}`;
+							return <InvoicesTableRow key={`invoice-${index}`} invoice={invoice} getData={null} />;
+						})}
+					</tbody>
+				</table>
+			</div>
+			<div className="flex justify-center items-center">
+				<form className="flex flex-col items-center bg-base-200 p-6 rounded-lg shadow-md w-96" onSubmit={handleSubmit}>
+					<h2 className="text-lg font-bold mb-4">Edit Partner</h2>
+					<div>
+						{!partnerBulstat && <input type="text" placeholder="EGN" value={partnerEgn} onChange={(e) => setPartnerEgn(e.target.value)} className="input input-bordered w-full" />}
+						{!partnerEgn && <input type="text" placeholder="BULSTAT" value={partnerBulstat} onChange={(e) => setPartnerBulstat(e.target.value)} className="input input-bordered w-full" />}
+						<input type="text" placeholder="First Name" value={partnerName} onChange={(e) => setPartnerName(e.target.value)} className="input input-bordered w-full" />
+						<input type="text" placeholder="Surname" value={partnerSurname} onChange={(e) => setPartnerSurname(e.target.value)} className="input input-bordered w-full" />
+						<input type="text" placeholder="Last Name" value={partnerLastname} onChange={(e) => setPartnerLastname(e.target.value)} className="input input-bordered w-full" />
+						<input type="email" placeholder="Email" value={partnerEmail} onChange={(e) => setPartnerEmail(e.target.value)} className="input input-bordered w-full" />
+						<input type="text" placeholder="Phone" value={partnerPhone} onChange={(e) => setPartnerPhone(e.target.value)} className="input input-bordered w-full" />
+						<input type="text" placeholder="Address" value={partnerAddress} onChange={(e) => setPartnerAddress(e.target.value)} className="input input-bordered w-full" />
+					</div>
+					<button type="submit" className="btn btn-neutral w-full">
+						Update Partner
+					</button>
+				</form>
+			</div>
+		</div>
+	);
 };
 
 export default PartnersEdit;
