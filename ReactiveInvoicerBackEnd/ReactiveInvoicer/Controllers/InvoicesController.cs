@@ -50,16 +50,16 @@ namespace ReactiveInvoicer.Controllers
 
         // GET: api/Invoices/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetInvoiceDetails(int invoiceId)
+        public async Task<IActionResult> GetInvoiceDetails(int id)
         {
             // Намери фактурата с включени данни за партньор и плащания
             var invoice = await _context.Invoices
                 .Include(i => i.Partner)
                 .Include(i => i.Payments)
-                .FirstOrDefaultAsync(i => i.InvoiceId == invoiceId);
+                .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
             if (invoice == null)
-                return NotFound($"Invoice with ID {invoiceId} not found.");
+                return NotFound($"Invoice with ID {id} not found.");
 
             // Изчисляване на сума на плащанията и остатъчно задължение
             var totalPayments = invoice.Payments.Sum(p => p.PaymentValue);
@@ -94,7 +94,7 @@ namespace ReactiveInvoicer.Controllers
 
         // PUT: api/Invoices/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{invoiceId}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditInvoice(int invoiceId, [FromBody] EditInvoiceDTO model)
         {
             // Намери фактурата
