@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReactiveInvoicer.Models;
 using ReactiveInvoicer.Models.DTOs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ReactiveInvoicer.Controllers
 {
@@ -58,7 +59,7 @@ namespace ReactiveInvoicer.Controllers
         public async Task<IActionResult> GetPartnerDetails(decimal partnerId)
         {
             // Намиране на контрагент
-            var partner = await _context.Partners.FindAsync(partnerId);
+            var partner = await _context.Partners.Include(i=>i.Invoices).FirstOrDefaultAsync(x=>x.PartnerId==partnerId);
 
             if (partner == null)
                 return NotFound($"Partner with ID {partnerId} not found.");
@@ -76,7 +77,17 @@ namespace ReactiveInvoicer.Controllers
                 partner.PartnertFullname,
                 partner.PartnerEmail,
                 partner.PartnerPhone,
-                partner.PartnerAddress
+                partner.PartnerAddress,
+                invoices = partner.Invoices.Select(i => new
+                {
+                    i.InvoiceId,
+                    i.InvoiceNo,
+                    i.InvoiceDate,
+                    i.InvoicePayableUntil,
+                    i.InvoiceStatus,
+                    i.InvoiceValue,
+                    InvoiceTypeName = i.InvoiceType
+                }).ToList() // Конвертираме го в списък
             };
 
             return Ok(result);
