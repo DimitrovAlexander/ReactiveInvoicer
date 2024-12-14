@@ -30,10 +30,9 @@ export function PartnersTableRow({ partner, getData }) {
 			<td>{partner.partnerAddress || "N/A"}</td>
 			<td>{partner.partnerEmail || "N/A"}</td>
 			<td>
-				<button className="btn btn-neutral mr-2" onClick={() => navigate(`/partners/edit/${partner.partnerId}`)}>
+				<button className="btn btn-neutral mr-2" onClick={() => navigate(`/partners/${partner.partnerId}/edit`)}>
 					Details
 				</button>
-				
 			</td>
 		</tr>
 	);

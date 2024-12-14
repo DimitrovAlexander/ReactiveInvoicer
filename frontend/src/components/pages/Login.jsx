@@ -7,7 +7,7 @@ export default function Login() {
 	const [err, setErr] = useState("");
 
 	const [username, setUsername] = useState("admin");
-	const [password, setPassword] = useState("password123");
+	const [password, setPassword] = useState("adminpass");
 
 	async function login() {
 		try {

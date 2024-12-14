@@ -21,16 +21,16 @@ const PartnersEdit = () => {
       try {
         const response = await api.get(`partners/${id}`);
         const data = response.data;
-console.log(data)
+
         setPartner({
             type: data.type,
-            egn: data.egn || '',
-            bulstat: data.bulstat || '',
+            egn: data.partnerEgn || '',
+            bulstat: data.partnerBulstat || '',
             name: data.name || '',
             companyName: data.companyName || '',
-            email: data.email || '',
-            phone: data.phone || '',
-            address: data.address || '',
+            email: data.partnerEmail || '',
+            phone: data.partnerPhone || '',
+            address: data.partnerAddress || '',
           });
       } catch (error) {
         alert("Failed to load partner data: " + (error.response?.data?.message || "Unknown error"));

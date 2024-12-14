@@ -90,7 +90,7 @@ export default function PartnersRead() {
 							<th>Phone number</th>
 							<th>Address</th>
 							<th>Email</th>
-							<th>Edit Partner</th>
+							<th>Partner Details</th>
 							<td></td>
 						</tr>
 					</thead>
