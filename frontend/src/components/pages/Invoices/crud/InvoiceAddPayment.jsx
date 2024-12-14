@@ -15,6 +15,8 @@ export default function InvoiceAddPayment() {
 	async function loadInvoiceDetails() {
 		try {
 			const { data } = await api.get(`/Invoices/${id}`);
+      console.log(data);
+      
 			setInvoice(data);
 		} catch (error) {
 			console.error("Error loading invoice:", error);
@@ -34,7 +36,8 @@ export default function InvoiceAddPayment() {
 		}
 
 		try {
-			await api.post(`/Invoices/${id}/payments`, {
+			await api.post(`/Invoices/payment`, {
+        invoiceId: id,
 				paymentDate,
 				paymentValue: parseFloat(paymentValue),
 			});
@@ -59,10 +62,10 @@ export default function InvoiceAddPayment() {
 			<div className="card bg-base-200 w-96">
 				<div className="card-body">
 					<h2 className="text-lg font-bold">Add Payment for Invoice #{invoice.invoiceNo}</h2>
-					<p>Invoice Date: {invoice.invoiceDate}</p>
+					<p>Invoice Date: {new Date(invoice.invoiceDate).toDateString()}</p>
 					<p>Invoice Value: {invoice.invoiceValue}</p>
-					<p>Total Payments: {invoice.payments.reduce((sum, p) => sum + p.paymentValue, 0)}</p>
-					<p>Remaining Balance: {invoice.invoiceValue - invoice.payments.reduce((sum, p) => sum + p.paymentValue, 0)}</p>
+					<p>Total Payments: {invoice.totalPayments}</p>
+					<p>Remaining Balance: {invoice.invoiceValue - invoice.totalPayments}</p>
 
 					<input type="date" value={paymentDate} onChange={(e) => setPaymentDate(e.target.value)} className="input input-bordered w-full mt-4" />
 					<input type="number" placeholder="Payment Value" value={paymentValue} onChange={(e) => setPaymentValue(e.target.value)} className="input input-bordered w-full mt-4" />
