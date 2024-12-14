@@ -8,9 +8,9 @@ const SettingsForm = ({ closeModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      console.log("Password updated:", password);
+      aler("Password updated:", password);
     } else {
-      console.log("Passwords do not match!");
+      alert("Passwords do not match!");
     }
     closeModal();
   };

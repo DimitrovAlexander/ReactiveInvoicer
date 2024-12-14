@@ -24,7 +24,6 @@ const Navbar = ({ onLoginClick, onSettingsClick }) => {
         <button
           className="navbar-button"
           onClick={() => {
-            console.log("Settings button clicked");
             onSettingsClick();
           }}
         >
@@ -35,7 +34,6 @@ const Navbar = ({ onLoginClick, onSettingsClick }) => {
           <button
             className="navbar-button"
             onClick={() => {
-              console.log("Login button clicked");
               onLoginClick();
             }}
           >

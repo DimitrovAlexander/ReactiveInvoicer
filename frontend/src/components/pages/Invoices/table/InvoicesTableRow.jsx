@@ -51,10 +51,10 @@ export function InvoicesTableRow({ invoice, getData }) {
       <th>{invoice.invoiceId}</th>
       <td>
         <div>Invoice No: {invoice.invoiceNo}</div>
-        <div>Type: {invoice.invoiceTypeName}</div>
+        <div>Type: {invoice.invoiceTypeName == 1 ? "Income" : "Expense"}</div>
       </td>
-      <td>{invoice.invoiceDate}</td>
-      <td>{invoice.invoicePayableUntil}</td>
+      <td>{new Date(invoice.invoiceDate).toDateString()}</td>
+      <td>{new Date(invoice.invoicePayableUntil).toDateString()}</td>
       <td>
         <div>Total Payments: {totalPayments.toFixed(2)}</div>
         <div>Remaining Balance: {remainingBalance.toFixed(2)}</div>

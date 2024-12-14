@@ -26,25 +26,16 @@ export default function InvoicesRead() {
     }
   }
 
+  
   // Търсене на фактури
   async function findInvoices() {
-    try {
-      const query = {
-        ...(invoiceType && { invoiceType }),
-        ...(invoiceNo && { invoiceNo }),
-        ...(invoiceDate && { invoiceDate }),
-        ...(invoicePayableUntil && { invoicePayableUntil: invoicePayableUntil }),
-        ...(invoiceStatus && { invoiceStatus }),
-        ...(invoiceValue && { invoiceValue }),
-        ...(partnerName && { partnerName }),
-      };
-
-      const params = new URLSearchParams(query).toString();
-      const data = await api.get(`Invoices?${params}`);
-      setInvoices(data.data);
-    } catch (error) {
-      console.error("Error searching invoices:", error);
-    }
+    invoiceType && setInvoices(invoices.filter(x => x.invoiceTypeName == invoiceType));
+    invoiceNo && setInvoices(invoices.filter(x => x.invoiceNo == invoiceNo));
+    invoiceDate && setInvoices(invoices.filter(x => new Date(x.invoiceDate).toDateString() == new Date(invoiceDate).toDateString()));
+    invoicePayableUntil && setInvoices(invoices.filter(x => new Date(x.invoicePayableUntil).toDateString() == new Date(invoicePayableUntil).toDateString()));
+    invoiceStatus && setInvoices(invoices.filter(x => x.invoiceStatus == invoiceStatus));
+    invoiceValue && setInvoices(invoices.filter(x => x.invoiceValue == invoiceValue));
+    partnerName && setInvoices(invoices.filter(x => x.partnerName == partnerName));
   }
 
   useEffect(() => {
@@ -55,12 +46,15 @@ export default function InvoicesRead() {
     <div>
       <div className="card bg-base-200">
         <div className="card-body flex flex-row flex-wrap gap-4">
-          <input
-            value={invoiceType}
+           <select
+            value={invoiceStatus}
             onChange={(e) => setInvoiceType(e.target.value)}
-            placeholder="Invoice Type"
-            className="input input-bordered"
-          />
+            className="select select-bordered"
+          >
+            <option value="">Select Type</option>
+            <option value="1">Income</option>
+            <option value="2">Expense</option>
+          </select>
           <input
             value={invoiceNo}
             onChange={(e) => setInvoiceNo(e.target.value)}
