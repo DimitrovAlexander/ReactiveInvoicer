@@ -15,7 +15,7 @@ export default function HeaderLinks() {
 						<HeaderLink to={"/"} text={"Home"} />
 					</li>
 					<li>
-						<HeaderLink to={"/employees"} text={"Partners"} />
+						<HeaderLink to={"/partners"} text={"Partners"} />
 					</li>
 					<li>
 						<HeaderLink to={"/invoices"} text={"Invoices"} />

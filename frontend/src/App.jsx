@@ -2,12 +2,12 @@ import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./components/pages/Home";
 import InterviewsPage from "./components/pages/Invoices/InvoicesPage";
-import EmployeesPage from "./components/pages/Employees/EmployeesPage";
+import PartnersPage from "./components/pages/Partners/PartnersPage";
 import PositionsPage from "./components/pages/Positions/PositionsPage";
 import Login from "./components/pages/Login";
 import InvoicesPage from "./components/pages/Invoices/InvoicesPage";
 import InvoicesOnePage from "./components/pages/Invoices/InvoicesOnePage";
-// import EmployeesOnePage from "./components/pages/Partners/EmployeesOnePage";
+import PartnersOnePage from "./components/pages/Partners/PartnersOnePage";
 import PositionsOnePage from "./components/pages/Positions/PositionsOnePage";
 import InvoicesRead from "./components/pages/Invoices/crud/InvoicesRead";
 
@@ -18,8 +18,8 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 
-					<Route path="/partners" element={<EmployeesPage />} />
-					{/* <Route path="/partners/:id" element={<EmployeesOnePage />} /> */}
+					<Route path="/partners" element={<PartnersPage />} />
+					{/* <Route path="/partners/:id" element={<PartnersOnePage />} /> */}
 
 					<Route path="/invoices" element={<InvoicesPage />} />
 					<Route path="/invoice/:id" element={<InvoicesOnePage/>} />
