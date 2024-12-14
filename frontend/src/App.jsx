@@ -11,6 +11,8 @@ import PartnersOnePage from "./components/pages/Partners/PartnersOnePage";
 import PositionsOnePage from "./components/pages/Positions/PositionsOnePage";
 import InvoicesRead from "./components/pages/Invoices/crud/InvoicesRead";
 import InvoiceAddPayment from "./components/pages/Invoices/crud/InvoiceAddPayment";
+import InvoiceEdit from "./components/pages/Invoices/crud/InvoiceEdit";
+import PartnersEdit from "./components/pages/Partners/crud/PartnersEdit";
 
 function App() {
 	return (
@@ -20,11 +22,14 @@ function App() {
 					<Route path="/" element={<Home />} />
 
 					<Route path="/partners" element={<PartnersPage />} />
-					{/* <Route path="/partners/:id" element={<PartnersOnePage />} /> */}
+					<Route path="/partners/:id" element={<PartnersOnePage />}/>
+					<Route path="/partners/:id/edit" element={<PartnersEdit />}/>
+
 
 					<Route path="/invoices" element={<InvoicesPage />} />
 					<Route path="/invoice/:id" element={<InvoicesOnePage/>} />
 					<Route path="/invoice/:id/payment" element={<InvoiceAddPayment/>} />
+					<Route path="/invoice/:id/edit" element={<InvoiceEdit/>}/>
 
 					<Route path="/login" element={<Login />} />
 				</Routes>

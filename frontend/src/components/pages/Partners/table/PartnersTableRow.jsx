@@ -31,11 +31,9 @@ export function PartnersTableRow({ partner, getData }) {
 			<td>{partner.partnerEmail || "N/A"}</td>
 			<td>
 				<button className="btn btn-neutral mr-2" onClick={() => navigate(`/partners/edit/${partner.partnerId}`)}>
-					Edit
+					Details
 				</button>
-				<button className="btn btn-error" onClick={deletePartner}>
-					Delete
-				</button>
+				
 			</td>
 		</tr>
 	);

@@ -95,15 +95,15 @@ namespace ReactiveInvoicer.Controllers
         // PUT: api/Invoices/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditInvoice(int invoiceId, [FromBody] EditInvoiceDTO model)
+        public async Task<IActionResult> EditInvoice(int id, [FromBody] EditInvoiceDTO model)
         {
             // Намери фактурата
             var invoice = await _context.Invoices
                 .Include(i => i.Payments) // Зареждане на плащанията за проверка
-                .FirstOrDefaultAsync(i => i.InvoiceId == invoiceId);
+                .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
             if (invoice == null)
-                return NotFound($"Invoice with ID {invoiceId} not found.");
+                return NotFound($"Invoice with ID {id} not found.");
 
             // Проверка дали по фактурата има регистрирани плащания
             if (invoice.Payments.Any())
@@ -121,6 +121,25 @@ namespace ReactiveInvoicer.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "Invoice updated successfully." });
+        }
+        [HttpPut("{id}/updateStatus")]
+        public async Task<IActionResult> EditInvoiceStatus(int id, [FromBody] EditInvoiceStatusDTO model)
+        {
+            // Намери фактурата
+            var invoice = await _context.Invoices
+                .FirstOrDefaultAsync(i => i.InvoiceId == id);
+
+            if (invoice == null)
+                return NotFound($"Invoice with ID {id} not found.");
+           
+
+            // Актуализиране на данните за фактурата
+           invoice.InvoiceStatus= model.status;
+
+            // Записване на промените
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Invoice status updated successfully." });
         }
 
         // POST: api/Invoices

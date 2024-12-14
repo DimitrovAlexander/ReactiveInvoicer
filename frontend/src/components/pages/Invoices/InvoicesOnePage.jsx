@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getApi } from "../../../api/apiInstance";
 
 export default function InvoiceOnePage() {
   const api = getApi();
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const [invoice, setInvoice] = useState(null); // По подразбиране `null`
   const [totalPayments, setTotalPayments] = useState(0);
   const [remainingBalance, setRemainingBalance] = useState(0);
@@ -15,7 +15,7 @@ export default function InvoiceOnePage() {
   // Зареждане на данните за фактурата
   async function getData() {
     try {
-      const response = await api.get(`invoices/${id}`);
+      const response = await api.get(`Invoices/${id}`);
       const data = response.data;
 
       setInvoice(data);
@@ -40,8 +40,13 @@ export default function InvoiceOnePage() {
     if (!confirmed) return;
 
     try {
-      await api.put(`invoices/${id}/status`, { status: newStatus });
+      await api.put(`invoices/${id}/updateStatus`, {
+
+         status: newStatus
+        
+        });
       alert("Invoice status updated successfully!");
+      navigate(-1);
       getData(); // Обновяване на данните след промяна
     } catch (error) {
       alert(`Error updating invoice status: ${error.response?.data?.message || error.message}`);

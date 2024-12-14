@@ -54,9 +54,12 @@ export function InvoicesTableRow({ invoice, getData }) {
 			<td>
 				<div>Total Payments: {totalPayments.toFixed(2)}</div>
 				<div>Remaining Balance: {remainingBalance.toFixed(2)}</div>
-				<div>
-					Overdue Days: <span className={`${overdueDays > 0 ? "text-red-500" : "text-green-500"}`}>{overdueDays}</span>
-				</div>
+        
+        { invoice.invoiceStatus === "U" && (
+    <div>
+      Overdue Days: <span className={`${overdueDays > 0 ? "text-red-500" : "text-green-500"}`}>{overdueDays}</span>
+    </div>
+  )}
 			</td>
 			<td>{invoice.invoiceStatus === "P" ? "Paid" : "Unpaid"}</td>
 			<td>{invoice.partnerName}</td>
@@ -65,19 +68,38 @@ export function InvoicesTableRow({ invoice, getData }) {
 					Add Payment
 				</Link>
 			</td>
-			<td>
+      <td>
 				<button
+					className="btn btn-neutral mr-2"
+					onClick={() => {
+						navigate(`/invoice/${invoice.invoiceId}`);
+					}}
+				>
+					Details
+				</button>
+			</td>
+			<td>
+      <Link to={`/invoice/${invoice.invoiceId}/edit`} className="btn btn-neutral mr-2"	onClick={() => {
+						if (invoice.payments.length > 0) {
+							alert("Cannot edit an invoice with payments.");
+							return;
+						}
+						
+					}}>
+					Edit
+				</Link>
+				{/* <button
 					className="btn btn-neutral mr-2"
 					onClick={() => {
 						if (invoice.payments.length > 0) {
 							alert("Cannot edit an invoice with payments.");
 							return;
 						}
-						navigate(`/invoices/edit/${invoice.invoiceId}`);
+						navigate(`/invoice/${invoice.invoiceId}/edit`);
 					}}
 				>
 					Edit
-				</button>
+				</button> */}
 			</td>
 		</tr>
 	);
