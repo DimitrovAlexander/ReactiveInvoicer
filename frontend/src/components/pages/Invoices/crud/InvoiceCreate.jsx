@@ -50,7 +50,7 @@ export default function InvoiceCreate({ refresh }) {
 			});
 			refresh();
 		} catch (error) {
-			alert(error.response?.data?.message || "Error creating invoice");
+			alert(error.response?.data || "Error creating invoice");
 		}
 	}
 

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getApi } from "../../../../api/apiInstance";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export default function InvoiceEdit() {
     const api = getApi();
+    const navigate = useNavigate();
     const { id } = useParams();
     const [invoiceType, setInvoiceType] = useState("income");
     const [invoiceNo, setInvoiceNo] = useState("");
@@ -39,7 +40,7 @@ export default function InvoiceEdit() {
         }
 
         try {
-            await api.put(`invoice/${id}`, {
+            await api.put(`invoices/${id}`, {
                 invoiceTypeId: invoiceType === "income" ? 1 : 2,
                 invoiceNo,
                 invoiceDate,
@@ -47,9 +48,11 @@ export default function InvoiceEdit() {
                 invoiceValue,
                 invoiceNote,
             });
+            alert("Invoice updated successfully!");
             
         } catch (error) {
-            alert(error.response?.data?.message || "Error updating invoice");
+            console.log(error.response.data)
+            alert(error.response?.data || "Error updating invoice");
         }
     }
 

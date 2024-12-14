@@ -32,7 +32,7 @@ export function InvoicesTableRow({ invoice, getData }) {
 			alert(`Invoice status updated to ${newStatus}`);
 			getData(); // Refresh the invoice list
 		} catch (error) {
-			alert(`Error updating status: ${error.response?.data?.message || error.message}`);
+			alert(`Error updating status: ${error.response?.data || error.message}`);
 		}
 	}
 
@@ -78,29 +78,16 @@ export function InvoicesTableRow({ invoice, getData }) {
 					Details
 				</button>
 			</td>
-			<td>
-      <Link to={`/invoice/${invoice.invoiceId}/edit`} className="btn btn-neutral mr-2"	onClick={() => {
-						if (invoice.payments.length > 0) {
-							alert("Cannot edit an invoice with payments.");
-							return;
-						}
-						
-					}}>
-					Edit
-				</Link>
-				{/* <button
-					className="btn btn-neutral mr-2"
-					onClick={() => {
-						if (invoice.payments.length > 0) {
-							alert("Cannot edit an invoice with payments.");
-							return;
-						}
-						navigate(`/invoice/${invoice.invoiceId}/edit`);
-					}}
-				>
-					Edit
-				</button> */}
-			</td>
+      <td>
+  
+    <Link 
+      to={`/invoice/${invoice.invoiceId}/edit`} 
+      className="btn btn-neutral mr-2"
+    >
+      Edit
+    </Link>
+
+</td>
 		</tr>
 	);
 }

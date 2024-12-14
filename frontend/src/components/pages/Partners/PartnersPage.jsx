@@ -13,7 +13,7 @@ export default function InterviewsPage() {
 	return (
 		<div>
 			<PartnersRead key={refreshCounter}/>
-			{/* <PartnersCreate refresh={refresh}/> */}
+			
 		</div>
 	);
 }

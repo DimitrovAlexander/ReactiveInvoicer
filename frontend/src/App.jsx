@@ -1,15 +1,11 @@
 import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "./components/pages/Home";
-import InterviewsPage from "./components/pages/Invoices/InvoicesPage";
 import PartnersPage from "./components/pages/Partners/PartnersPage";
-import PositionsPage from "./components/pages/Positions/PositionsPage";
 import Login from "./components/pages/Login";
 import InvoicesPage from "./components/pages/Invoices/InvoicesPage";
 import InvoicesOnePage from "./components/pages/Invoices/InvoicesOnePage";
 import PartnersOnePage from "./components/pages/Partners/PartnersOnePage";
-import PositionsOnePage from "./components/pages/Positions/PositionsOnePage";
-import InvoicesRead from "./components/pages/Invoices/crud/InvoicesRead";
 import InvoiceAddPayment from "./components/pages/Invoices/crud/InvoiceAddPayment";
 import InvoiceEdit from "./components/pages/Invoices/crud/InvoiceEdit";
 import PartnersEdit from "./components/pages/Partners/crud/PartnersEdit";

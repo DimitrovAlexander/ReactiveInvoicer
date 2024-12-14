@@ -45,7 +45,7 @@ export default function InvoiceAddPayment() {
 			navigate(-1); // Връщаме се към предишната страница
 		} catch (error) {
 			console.error("Error registering payment:", error);
-			alert(error.response?.data?.message || "Error registering payment.");
+			alert(error.response?.data|| "Error registering payment.");
 		}
 	}
 
