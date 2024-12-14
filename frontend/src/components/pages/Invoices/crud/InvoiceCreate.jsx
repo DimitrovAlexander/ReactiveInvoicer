@@ -34,6 +34,7 @@ export default function InvoiceCreate({ refresh }) {
 			await api.post("Invoices", {
 				partnerId: isNewPartner ? null : selectedPartnerId,
 				partnerEgn: isNewPartner ? partnerEgn : null,
+				partnerBulstat: isNewPartner ? partnerBulstat : null,
 				partnerName: isNewPartner ? partnerName : null,
 				partnerSurname: isNewPartner ? partnerSurname : null,
 				partnerLastname: isNewPartner ? partnerLastname : null,

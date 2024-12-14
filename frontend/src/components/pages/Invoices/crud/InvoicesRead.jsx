@@ -117,7 +117,7 @@ export default function InvoicesRead() {
               <th>Payments Info</th>
               <th>Status</th>
               <th>Partner</th>
-              <th>Update status</th>
+              <th>Add Payment</th>
               <th>Edit Invoice</th>
               <td></td>
             </tr>

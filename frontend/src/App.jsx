@@ -10,6 +10,7 @@ import InvoicesOnePage from "./components/pages/Invoices/InvoicesOnePage";
 import PartnersOnePage from "./components/pages/Partners/PartnersOnePage";
 import PositionsOnePage from "./components/pages/Positions/PositionsOnePage";
 import InvoicesRead from "./components/pages/Invoices/crud/InvoicesRead";
+import InvoiceAddPayment from "./components/pages/Invoices/crud/InvoiceAddPayment";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 
 					<Route path="/invoices" element={<InvoicesPage />} />
 					<Route path="/invoice/:id" element={<InvoicesOnePage/>} />
+					<Route path="/invoice/:id/payment" element={<InvoiceAddPayment/>} />
 
 					<Route path="/login" element={<Login />} />
 				</Routes>

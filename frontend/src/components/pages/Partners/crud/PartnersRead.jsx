@@ -13,7 +13,7 @@ export default function PartnersRead() {
 	const [partners, setPartners] = useState([]);
 
 	// Филтри за търсене
-	const [partnerEgn, setEgn] = useState("");
+	const [partnerIdentifier, setPartnerIdentifier] = useState("");
 	const [partnerBulstat, setBulstat] = useState("");
 	const [clientType, setClientType] = useState("");
 	const [address, setAddress] = useState("");
@@ -33,23 +33,22 @@ export default function PartnersRead() {
 		}
 	}
 
-	/* 
-partnerAddress
-partnerBulstat
-partnerEgn
-partnerEmail
-partnerId
-partnerPhone
-partnertFullname
-*/
-
 	// Търсене на контрагенти
 	async function findPartners() {
-		partnerEgn && setPartners(partners.filter((x) => x.partnerEgn == partnerEgn));
+		partnerIdentifier && setPartners(partners.filter((x) => x.partnerEgn == partnerIdentifier || x.partnerBulstat == partnerIdentifier));
 		partnerEmail && setPartners(partners.filter((x) => x.partnerEmail == partnerEmail));
 		partnerName && setPartners(partners.filter((x) => x.partnertFullname == partnerName));
 		address && setPartners(partners.filter((x) => x.partnerAddress == address));
 		phone && setPartners(partners.filter((x) => x.partnerPhone == phone));
+		clientType &&
+			setPartners(
+				partners.filter((x) => {
+					if (clientType == "Business") {
+						return !x.partnerEgn;
+					}
+					return !x.partnerBulstat;
+				})
+			);
 	}
 
 	useEffect(() => {
@@ -60,12 +59,12 @@ partnertFullname
 		<div>
 			<div className="card bg-base-200">
 				<div className="card-body flex flex-row flex-wrap gap-4">
-					<input value={partnerEgn} onChange={(e) => setEgn(e.target.value)} placeholder="EGN" className="input input-bordered" />
+					<input value={partnerIdentifier} onChange={(e) => setPartnerIdentifier(e.target.value)} placeholder="EGN" className="input input-bordered" />
 					<input value={partnerBulstat} onChange={(e) => setBulstat(e.target.value)} placeholder="BULSTAT" className="input input-bordered" />
 					<select value={clientType} onChange={(e) => setClientType(e.target.value)} className="select select-bordered">
 						<option value="">Select Client Type</option>
-						<option value="individual">Individual</option>
-						<option value="business">Business</option>
+						<option value="Individual">Individual</option>
+						<option value="Business">Business</option>
 					</select>
 					<input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" className="input input-bordered" />
 					<input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone" className="input input-bordered" />
@@ -85,8 +84,7 @@ partnertFullname
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>EGN</th>
-							<th>BULSTAT</th>
+							<th>Partner Identifier</th>
 							<th>Client Type</th>
 							<th>Client Name</th>
 							<th>Phone number</th>
