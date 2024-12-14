@@ -79,7 +79,6 @@ function App() {
       setInvoices(updatedInvoices);
     } else {
       // Add new invoice
-      console.log(invoice);
       await axios.post("https://localhost:7024/api/Invoices", {
         "partnerId": 0,
         "partnerName": "string",
