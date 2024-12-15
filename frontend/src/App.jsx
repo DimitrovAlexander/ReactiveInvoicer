@@ -10,6 +10,7 @@ import InvoiceAddPayment from "./components/pages/Invoices/crud/InvoiceAddPaymen
 import InvoiceEdit from "./components/pages/Invoices/crud/InvoiceEdit";
 import PartnersEdit from "./components/pages/Partners/crud/PartnersEdit";
 import Register from "./components/pages/Register";
+import PrivateRoute from "./routes/PirvateRoute";
 
 function App() {
 	return (
@@ -18,15 +19,63 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 
-					<Route path="/partners" element={<PartnersPage />} />
-					<Route path="/partners/:id" element={<PartnersOnePage />}/>
-					<Route path="/partners/:id/edit" element={<PartnersEdit />}/>
+					<Route
+						path="/partners"
+						element={
+							<PrivateRoute>
+								<PartnersPage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/partners/:id"
+						element={
+							<PrivateRoute>
+								<PartnersOnePage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/partners/:id/edit"
+						element={
+							<PrivateRoute>
+								<PartnersEdit />
+							</PrivateRoute>
+						}
+					/>
 
-
-					<Route path="/invoices" element={<InvoicesPage />} />
-					<Route path="/invoice/:id" element={<InvoicesOnePage/>} />
-					<Route path="/invoice/:id/payment" element={<InvoiceAddPayment/>} />
-					<Route path="/invoice/:id/edit" element={<InvoiceEdit/>}/>
+					<Route
+						path="/invoices"
+						element={
+							<PrivateRoute>
+								<InvoicesPage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/invoice/:id"
+						element={
+							<PrivateRoute>
+								<InvoicesOnePage />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/invoice/:id/payment"
+						element={
+							<PrivateRoute>
+								<InvoiceAddPayment />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/invoice/:id/edit"
+						element={
+							<PrivateRoute>
+								<InvoiceEdit />
+							</PrivateRoute>
+						}
+					/>
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />

@@ -87,10 +87,10 @@ export default function InvoiceOnePage() {
           <strong>Invoice Type:</strong> {invoice.invoiceTypeName || "N/A"}
         </div>
         <div>
-          <strong>Invoice Date:</strong> {invoice.invoiceDate || "N/A"}
+          <strong>Invoice Date:</strong> {new Date(invoice.invoiceDate).toDateString() || "N/A"}
         </div>
         <div>
-          <strong>Payable Until:</strong> {invoice.invoicePayableUntil || "N/A"}
+          <strong>Payable Until:</strong> {new Date(invoice.invoicePayableUntil).toDateString() || "N/A"}
         </div>
         <div>
           <strong>Total Value:</strong> {invoice.invoiceValue ? invoice.invoiceValue.toFixed(2) : "0.00"}
