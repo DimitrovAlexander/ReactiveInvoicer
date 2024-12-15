@@ -33,6 +33,9 @@ export default function HeaderLinks() {
 					<li>
 						<HeaderLink to={"/login"} text={"Login"} />
 					</li>
+					<li>
+						<HeaderLink to={"/register"} text={"Register"} />
+					</li>
 				</>
 			)}
 		</>

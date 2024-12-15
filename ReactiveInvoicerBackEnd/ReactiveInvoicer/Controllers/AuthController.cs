@@ -30,7 +30,7 @@ namespace ReactiveInvoicer.Controllers
                 return BadRequest(new { message = "Username and password are required" });
 
 
-            if (!AuthenticateUser(request.Username, request.Password))
+            if (!AuthenticateUser(request.Username, HashWitSha1(request.Password)))
                 return Unauthorized(new { message = "Invalid username or password" });
 
 
@@ -39,6 +39,26 @@ namespace ReactiveInvoicer.Controllers
 
             return Ok(new { token });
         }
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] LoginRequestDTO request)
+        {
+
+            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+                return BadRequest(new { message = "Username and password are required" });
+
+
+            User user = new User()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Username = request.Username,
+                Password = HashWitSha1(request.Password),
+                Role="Client"
+            };
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return Ok("User registed successfully");
+        }
 
 
         private bool AuthenticateUser(string username, string password)
@@ -46,7 +66,12 @@ namespace ReactiveInvoicer.Controllers
             // Dummy user validation
             return _context.Users.FirstOrDefault(x => x.Username == username && x.Password == password) != null;
         }
-
+        private static string HashWitSha1(string text)
+        {
+            var sha1 = System.Security.Cryptography.SHA1.Create();
+            var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(text));
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+        }
 
         private string GenerateJwtToken(string username)
         {

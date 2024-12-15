@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { authCheckLogin, authGetName } from "../../api/auth";
+
 import { getApi } from "../../api/apiInstance";
 import { InvoicesTableRow } from "./Invoices/table/InvoicesTableRow";
 
@@ -21,19 +22,21 @@ export default function Home() {
 	  }, []);
 	  
 	return (
-		<div>
+		<>
+		{ authCheckLogin() ? (
 			<div>
-				<h1>Overdue Invoices: </h1>
+			<div>
+			<h1>Overdue Invoices: </h1>
 			</div>
 			<div className="overflow-x-auto">
 					<table className="table table-zebra">
-					  <thead>
-						<tr>
-						  <th>Id</th>
-						  <th>Invoice Info</th>
-						  <th>Invoice Date</th>
-						  <th>Payment due</th>
-						  <th>Payments Info</th>
+					<thead>
+					<tr>
+					<th>Id</th>
+					<th>Invoice Info</th>
+					<th>Invoice Date</th>
+					<th>Payment due</th>
+					<th>Payments Info</th>
 						  <th>Status</th>
 						  <th>Partner</th>
 						  <th>Add Payment</th>
@@ -44,11 +47,15 @@ export default function Home() {
 					  </thead>
 					  <tbody>
 						{invoices.map((invoice, index) => (
-						  <InvoicesTableRow key={`invoice-${index}`} invoice={invoice} getData={getData}/>
+							<InvoicesTableRow key={`invoice-${index}`} invoice={invoice} getData={getData}/>
 						))}
 					  </tbody>
 					</table>
 				  </div>
 		</div>
-	);
-}
+	):(
+		<div></div>
+	)};
+	</>
+)}
+

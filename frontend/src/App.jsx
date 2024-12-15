@@ -9,6 +9,7 @@ import PartnersOnePage from "./components/pages/Partners/PartnersOnePage";
 import InvoiceAddPayment from "./components/pages/Invoices/crud/InvoiceAddPayment";
 import InvoiceEdit from "./components/pages/Invoices/crud/InvoiceEdit";
 import PartnersEdit from "./components/pages/Partners/crud/PartnersEdit";
+import Register from "./components/pages/Register";
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 					<Route path="/invoice/:id/edit" element={<InvoiceEdit/>}/>
 
 					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
 				</Routes>
 			</Layout>
 		</BrowserRouter>

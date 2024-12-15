@@ -161,8 +161,6 @@ public partial class ReactiveInvoiceContext : DbContext
             entity.ToTable("USERS");
 
             entity.Property(e => e.Id).HasMaxLength(40);
-            entity.Property(e => e.FirstName).HasMaxLength(40);
-            entity.Property(e => e.LastName).HasMaxLength(40);
             entity.Property(e => e.Password).HasMaxLength(40);
             entity.Property(e => e.Role).HasMaxLength(7);
             entity.Property(e => e.Username).HasMaxLength(40);

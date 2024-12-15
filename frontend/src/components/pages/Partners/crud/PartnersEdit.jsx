@@ -35,7 +35,7 @@ const PartnersEdit = () => {
 				setPartnerPhone(data.partnerPhone);
 				setPartnerAddress(data.partnerAddress);
 			} catch (error) {
-				alert("Failed to load partner data: " + (error.response?.data?.message || "Unknown error"));
+				alert("Failed to load partner data: " + (error.response?.data|| "Unknown error"));
 			}
 		};
 
@@ -56,7 +56,7 @@ const PartnersEdit = () => {
 				partnerAddress: partnerAddress,
 			});
 		} catch (error) {
-			alert(error.response?.data?.message || "Error updating partner");
+			alert(error.response?.data|| "Error updating partner");
 		}
 	};
 

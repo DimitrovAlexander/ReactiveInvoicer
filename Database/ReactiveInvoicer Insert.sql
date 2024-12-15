@@ -8,9 +8,8 @@ VALUES
 -- Добавяне на данни в таблицата INVOICE_TYPE
 INSERT INTO [dbo].[INVOICE_TYPE] (TYPE_ID, TYPE_NAME)
 VALUES 
-(1, 'Standard'),
-(2, 'Credit'),
-(3, 'Debit');
+(1, 'Income'),
+(2, 'Expense');
 
 -- Добавяне на данни в таблицата INVOICE
 INSERT INTO [dbo].[INVOICE] (PARTNER_ID, INVOCIE_NO, INVOCIE_DATE, INVOICE_TYPE, INVOICE_, INVOICE_STATUS, INVOICE_VALUE, INVOICE_NOTE)
@@ -18,7 +17,7 @@ VALUES
 (1, 'INV-001', '2024-01-15', 1, '2024-01-15', 'P', 500.00, 'Paid invoice'),
 (1, 'INV-002', '2024-02-01', 2, '2024-02-01', 'U', 300.00, 'Unpaid invoice'),
 (2, 'INV-003', '2024-03-10', 1, '2024-03-10', 'P', 150.00, 'Paid invoice'),
-(3, 'INV-004', '2024-04-05', 3, '2024-04-05', 'U', 700.00, 'Unpaid invoice'),
+(3, 'INV-004', '2024-04-05', 2, '2024-04-05', 'U', 700.00, 'Unpaid invoice'),
 (3, 'INV-005', '2024-05-20', 1, '2024-05-20', 'P', 400.00, 'Paid invoice');
 
 -- Добавяне на данни в таблицата PAYMENTS
@@ -29,8 +28,7 @@ VALUES
 (5, '2024-05-25', 400.00);
 
 -- Добавяне на данни в таблицата USERS
-INSERT INTO [dbo].[USERS] (Id, FirstName, LastName, Username, Password, Role)
+INSERT INTO [dbo].[USERS] (Id, Username, Password, Role)
 VALUES 
-('1', 'Admin', 'User', 'admin', 'adminpass', 'Admin'),
-('2', 'John', 'Doe', 'johndoe', 'password123', 'User'),
-('3', 'Jane', 'Smith', 'janesmith', 'securepass', 'User');
+('8fd305fd-c6c4-47cd-a63a-adf6e81d8a53', 'admin', '74913f5cd5f61ec0bcfdb775414c2fb3d161b620', 'Admin');
+

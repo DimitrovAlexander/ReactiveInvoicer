@@ -30,7 +30,7 @@ export default function PartnersOnePage() {
       alert("Partner deleted successfully!");
       window.history.back(); // Връщане назад след изтриване
     } catch (error) {
-      alert(`Error deleting partner: ${error.response?.data?.message || error.message}`);
+      alert(`Error deleting partner: ${error.response?.data || error.message}`);
     }
   }
 

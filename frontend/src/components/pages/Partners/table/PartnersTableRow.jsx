@@ -16,7 +16,7 @@ export function PartnersTableRow({ partner, getData }) {
 			alert("Partner deleted successfully.");
 			getData(); // Refresh the partners list
 		} catch (error) {
-			alert(`Error deleting partner: ${error.response?.data?.message || error.message}`);
+			alert(`Error deleting partner: ${error.response?.data || error.message}`);
 		}
 	}
 
