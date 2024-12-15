@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { getApi } from "../../api/apiInstance";
+import { useNavigate } from "react-router";
 
 export default function Register() {
 	const api = getApi();
 
 	const [err, setErr] = useState("");
-
+	const navigate = useNavigate();
 	const [username, setUsername] = useState("admin");
 	const [password, setPassword] = useState("adminpass");
 
@@ -16,6 +17,7 @@ export default function Register() {
 				password,
 			});
 			alert("User registered successfully!")
+			navigate(`/login`)
 
 		} catch (error) {
 			alert(error.response.data);
