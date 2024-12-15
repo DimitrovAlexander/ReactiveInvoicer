@@ -54,7 +54,12 @@ export default function Home() {
 				  </div>
 		</div>
 	):(
-		<div>Not Logged In!</div>
+		<div>
+
+		Welcome to Reactive Invoicer!
+
+		
+	</div>
 	)}
 	</>
 )}
