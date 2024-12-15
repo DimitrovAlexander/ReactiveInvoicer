@@ -44,8 +44,11 @@ namespace ReactiveInvoicer.Controllers
         {
 
             if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
-                return BadRequest(new { message = "Username and password are required" });
-
+                return BadRequest("Username and password are required" );
+            if (request.Password.Length<6)
+            {
+                return BadRequest("Password must be minimum 6 symbols!");
+            }
 
             User user = new User()
             {
@@ -63,7 +66,7 @@ namespace ReactiveInvoicer.Controllers
 
         private bool AuthenticateUser(string username, string password)
         {
-            // Dummy user validation
+
             return _context.Users.FirstOrDefault(x => x.Username == username && x.Password == password) != null;
         }
         private static string HashWitSha1(string text)
