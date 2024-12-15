@@ -1,13 +1,7 @@
-﻿        using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReactiveInvoicer.Models;
 using ReactiveInvoicer.Models.DTOs;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ReactiveInvoicer.Controllers
 {
@@ -24,18 +18,12 @@ namespace ReactiveInvoicer.Controllers
 
         // GET: api/Partners
         [HttpGet]
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchPartners(
-    [FromQuery] string? egn,
-    [FromQuery] string? bulstat,
-    [FromQuery] string? clientType,
-    [FromQuery] string? fullName,
-    [FromQuery] string? name,
-    [FromQuery] string? email)
+
+        public async Task<IActionResult> SearchPartners()
         {
             var query = _context.Partners.AsQueryable();
 
-           
+
             // Извличане на резултатите
             var result = await query
                 .Select(p => new
@@ -59,7 +47,7 @@ namespace ReactiveInvoicer.Controllers
         public async Task<IActionResult> GetPartnerDetails(decimal partnerId)
         {
             // Намиране на контрагент
-            var partner = await _context.Partners.Include(i=>i.Invoices).FirstOrDefaultAsync(x=>x.PartnerId==partnerId);
+            var partner = await _context.Partners.Include(i => i.Invoices).FirstOrDefaultAsync(x => x.PartnerId == partnerId);
 
             if (partner == null)
                 return NotFound($"Partner with ID {partnerId} not found.");
@@ -106,7 +94,7 @@ namespace ReactiveInvoicer.Controllers
                 return NotFound($"Partner with ID {partnerId} not found.");
 
             // Валидация на типа клиент
-            
+
 
             // Актуализиране на данните за контрагента
             partner.PartnerEgn = model.PartnerEgn;
