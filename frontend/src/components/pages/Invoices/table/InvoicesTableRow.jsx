@@ -52,8 +52,8 @@ export function InvoicesTableRow({ invoice, getData }) {
 			<td>{new Date(invoice.invoiceDate).toDateString()}</td>
 			<td>{new Date(invoice.invoicePayableUntil).toDateString()}</td>
 			<td>
-				<div>Total Payments: {totalPayments.toFixed(2)}</div>
-				<div>Remaining Balance: {remainingBalance.toFixed(2)}</div>
+				<div>Invoice value: {invoice.invoiceValue.toFixed(2)}</div>
+		
         
         { invoice.invoiceStatus === "U" && (
     <div>

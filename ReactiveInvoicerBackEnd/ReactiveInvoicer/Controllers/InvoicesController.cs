@@ -27,7 +27,8 @@ namespace ReactiveInvoicer.Controllers
         {
             var query = _context.Invoices
                 .Include(i => i.Partner) // Include related data
-                .Include(i => i.InvoiceTypeNavigation) // Include related data
+                .Include(i => i.InvoiceTypeNavigation)
+                .Include(i=>i.Payments)// Include related data
                 .AsQueryable();
 
             // Fetch the results
@@ -42,6 +43,8 @@ namespace ReactiveInvoicer.Controllers
                     i.InvoiceValue,
                     PartnerName = i.Partner.PartnertFullname,
                     InvoiceTypeName = i.InvoiceType
+
+                    
                 })
                 .ToListAsync();
 
