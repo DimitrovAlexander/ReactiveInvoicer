@@ -7,8 +7,8 @@ export default function Register() {
 
 	const [err, setErr] = useState("");
 	const navigate = useNavigate();
-	const [username, setUsername] = useState("admin");
-	const [password, setPassword] = useState("adminpass");
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 
 	async function register() {
 		try {

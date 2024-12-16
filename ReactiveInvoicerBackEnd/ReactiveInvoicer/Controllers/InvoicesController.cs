@@ -71,7 +71,7 @@ namespace ReactiveInvoicer.Controllers
             {
                 overdueDays = (DateTime.UtcNow.Date - invoice.InvoicePayableUntil.Date).Days;
             }
-
+            string invoiceTypeName = _context.InvoiceTypes.FirstOrDefault(x => x.TypeId == invoice.InvoiceType).TypeName;
 
                 // Създаване на обект с резултатите
                 var details = new
@@ -81,6 +81,7 @@ namespace ReactiveInvoicer.Controllers
                 invoice.InvoiceDate,
                 invoice.InvoicePayableUntil,
                 invoice.InvoiceValue,
+                invoiceTypeName,
                 TotalPayments = totalPayments,
                 RemainingBalance = remainingBalance,
                 OverdueDays = overdueDays,

@@ -11,6 +11,7 @@ import InvoiceEdit from "./components/pages/Invoices/crud/InvoiceEdit";
 import PartnersEdit from "./components/pages/Partners/crud/PartnersEdit";
 import Register from "./components/pages/Register";
 import PrivateRoute from "./routes/PirvateRoute";
+import PartnersAddInvoice from "./components/pages/Partners/crud/PartnersAddInvoice";
 
 function App() {
 	return (
@@ -40,6 +41,14 @@ function App() {
 						element={
 							<PrivateRoute>
 								<PartnersEdit />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/partners/:id/invoice"
+						element={
+							<PrivateRoute>
+								<PartnersAddInvoice />
 							</PrivateRoute>
 						}
 					/>

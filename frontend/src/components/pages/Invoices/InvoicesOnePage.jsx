@@ -17,18 +17,20 @@ export default function InvoiceOnePage() {
     try {
       const response = await api.get(`Invoices/${id}`);
       const data = response.data;
-
+      console.log(data.invoiceStatus)
+      const statusnew= data.invoiceStatus
       setInvoice(data);
 
       // Изчисляване на плащания, баланс и закъснение
       const totalPayments = data.payments?.reduce((sum, payment) => sum + payment.paymentValue, 0) || 0;
       const remainingBalance = (data.invoiceValue || 0) - totalPayments;
-      const overdueDays = calculateOverdueDays(data.invoicePayableUntil);
-
+      const overdueDays = calculateOverdueDays(data.invoicePayableUntil,data.invoiceStatus);
       setTotalPayments(totalPayments);
       setRemainingBalance(remainingBalance);
       setOverdueDays(overdueDays);
-      setStatus(data.invoiceStatus || ""); // Уверяваме се, че статусът е достъпен
+      setStatus(statusnew); 
+
+      console.log(status)// Уверяваме се, че статусът е достъпен
     } catch (error) {
       console.error("Error fetching invoice data:", error);
     }
@@ -54,17 +56,19 @@ export default function InvoiceOnePage() {
   }
 
   // Изчисляване на закъснели дни
-  function calculateOverdueDays(payableDate) {
+  function calculateOverdueDays(payableDate,status) {
     if (!payableDate) return 0; // Ако няма дата "платима до", няма закъснение
 
     const today = new Date();
     const dueDate = new Date(payableDate);
-
-    if (today > dueDate) {
+console.log(today)
+console.log(dueDate)
+console.log(status)
+    if (today > dueDate && status =="U") {
+       console.log("entered if")
       const differenceInTime = today.getTime() - dueDate.getTime();
       return Math.floor(differenceInTime / (1000 * 60 * 60 * 24)); // Разлика в дни
     }
-
     return 0; // Няма закъснение
   }
 
@@ -121,3 +125,7 @@ export default function InvoiceOnePage() {
     </div>
   );
 }
+function refresh() {
+  throw new Error("Function not implemented.");
+}
+

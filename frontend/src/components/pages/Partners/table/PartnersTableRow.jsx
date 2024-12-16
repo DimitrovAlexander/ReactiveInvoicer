@@ -34,6 +34,11 @@ export function PartnersTableRow({ partner, getData }) {
 					Details
 				</button>
 			</td>
+			<td>
+				<button className="btn btn-neutral mr-2" onClick={() => navigate(`/partners/${partner.partnerId}/invoice`)}>
+					Add invoice
+				</button>
+			</td>
 		</tr>
 	);
 }

@@ -91,6 +91,7 @@ export default function PartnersRead() {
 							<th>Address</th>
 							<th>Email</th>
 							<th>Partner Details</th>
+							<td>Add Invoice</td>
 							<td></td>
 						</tr>
 					</thead>
