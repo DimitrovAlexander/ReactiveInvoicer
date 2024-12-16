@@ -47,7 +47,7 @@ export default function InvoicesRead() {
       <div className="card bg-base-200">
         <div className="card-body flex flex-row flex-wrap gap-4">
            <select
-            value={invoiceStatus}
+            value={invoiceType}
             onChange={(e) => setInvoiceType(e.target.value)}
             className="select select-bordered"
           >
