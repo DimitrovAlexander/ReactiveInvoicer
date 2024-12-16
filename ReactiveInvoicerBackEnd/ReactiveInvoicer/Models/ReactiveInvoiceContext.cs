@@ -93,6 +93,7 @@ public partial class ReactiveInvoiceContext : DbContext
             entity.ToTable("PARTNER");
 
             entity.Property(e => e.PartnerId)
+            .ValueGeneratedOnAdd()
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("PARTNER_ID");
             entity.Property(e => e.PartnerAddress)

@@ -156,7 +156,8 @@ namespace ReactiveInvoicer.Controllers
                 return BadRequest("Invalid invoice data.");
             if (string.IsNullOrEmpty(model.InvoiceNo))
                 return BadRequest("InvoiceNo is empty");
-
+            if (_context.Invoices.FirstOrDefault(x => x.InvoiceNo == model.InvoiceNo) != null)
+                return BadRequest("Request with this InvoiceNo already exists");
             if (model.InvoiceValue <= 0)
                 return BadRequest("Invoice value must be greater than zero.");
 
@@ -173,6 +174,7 @@ namespace ReactiveInvoicer.Controllers
             }
             else
             {
+
                 // Създаване на нов контрагент
                 partner = new Partner
                 {

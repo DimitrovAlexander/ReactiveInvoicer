@@ -49,7 +49,10 @@ namespace ReactiveInvoicer.Controllers
             {
                 return BadRequest("Password must be minimum 6 symbols!");
             }
-
+            if (_context.Users.FirstOrDefault(x=>x.Username==request.Username)!=null)
+            {
+                return BadRequest($"User with username {request.Username} already exist");
+            }
             User user = new User()
             {
                 Id = Guid.NewGuid().ToString(),
