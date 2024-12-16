@@ -13,11 +13,11 @@ VALUES
 
 INSERT INTO [dbo].[INVOICE] (PARTNER_ID, INVOCIE_NO, INVOCIE_DATE, INVOICE_TYPE, INVOICE_, INVOICE_STATUS, INVOICE_VALUE, INVOICE_NOTE)
 VALUES 
-(1, 'INV-001', '2024-11-15', 1, '2024-11-25', 'P', 500.00, 'Materials'),
-(1, 'INV-002', '2024-12-01', 2, '2024-12-11', 'U', 300.00, 'Tools'),
-(2, 'INV-003', '2024-10-10', 1, '2024-12-19', 'P', 150.00, 'Office materials'),
-(3, 'INV-004', '2024-09-05', 2, '2024-10-05', 'U', 700.00, 'Office materials'),
-(3, 'INV-005', '2024-09-20', 1, '2024-09-30', 'P', 400.00, 'Office printer');
+(1, '001', '2024-11-15', 1, '2024-11-25', 'P', 500.00, 'Materials'),
+(1, '002', '2024-12-01', 2, '2024-12-11', 'U', 300.00, 'Tools'),
+(2, '003', '2024-10-10', 1, '2024-12-19', 'P', 150.00, 'Office materials'),
+(3, '004', '2024-09-05', 2, '2024-10-05', 'U', 700.00, 'Office materials'),
+(3, '005', '2024-09-20', 1, '2024-09-30', 'P', 400.00, 'Office printer');
 
 
 INSERT INTO [dbo].[PAYMENTS] (INVOICE_ID, PAYMENT_DATE, PAYMENT_VALUE)

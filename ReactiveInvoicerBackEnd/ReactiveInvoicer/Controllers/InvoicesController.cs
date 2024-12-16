@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,6 @@ namespace ReactiveInvoicer.Controllers
 
             if (invoice == null)
                 return NotFound($"Invoice with ID {id} not found.");
-
             // Изчисляване на сума на плащанията и остатъчно задължение
             var totalPayments = invoice.Payments.Sum(p => p.PaymentValue);
             var remainingBalance = invoice.InvoiceValue - totalPayments;
@@ -154,6 +154,8 @@ namespace ReactiveInvoicer.Controllers
             // Валидация на входните данни
             if (model == null)
                 return BadRequest("Invalid invoice data.");
+            if (string.IsNullOrEmpty(model.InvoiceNo))
+                return BadRequest("InvoiceNo is empty");
 
             if (model.InvoiceValue <= 0)
                 return BadRequest("Invoice value must be greater than zero.");
