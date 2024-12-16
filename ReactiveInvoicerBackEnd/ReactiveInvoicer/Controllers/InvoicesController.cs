@@ -163,6 +163,20 @@ namespace ReactiveInvoicer.Controllers
 
             if (model.PayableUntil < model.InvoiceDate)
                 return BadRequest("Payable date cannot be earlier than the invoice date.");
+            if (string.IsNullOrEmpty(model.PartnerPhone))
+                return BadRequest("Partner phone must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerEgn )&& string.IsNullOrEmpty(model.PartnerBulstat))
+                return BadRequest("Partner identifier must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerAddress))
+                return BadRequest("Partner address must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerEmail))
+                return BadRequest("Partner email must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerName))
+                return BadRequest("Partner First name must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerSurname))
+                return BadRequest("Partner Surname must not be empty");
+            if (string.IsNullOrEmpty(model.PartnerLastname))
+                return BadRequest("Partner Last name must not be empty");
 
             // Проверка и/или създаване на контрагент
             Partner partner;
