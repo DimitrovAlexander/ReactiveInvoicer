@@ -1,9 +1,9 @@
 ﻿
-INSERT INTO [dbo].[PARTNER] (PARTNER_ID, PARTNER_NAME, PARTNER_SURNAME, PARTNER_LASTNAME, PARTNERT_FULLNAME, PARTNER_EGN, PARTNER_BULSTAT, PARTNER_EMAIL, PARTNER_PHONE, PARTNER_ADDRESS)
+INSERT INTO [dbo].[PARTNER] ( PARTNER_NAME, PARTNER_SURNAME, PARTNER_LASTNAME, PARTNERT_FULLNAME, PARTNER_EGN, PARTNER_BULSTAT, PARTNER_EMAIL, PARTNER_PHONE, PARTNER_ADDRESS)
 VALUES 
-(1, 'John', 'A.', 'Doe', 'John A. Doe', '1234567890', NULL, 'john.doe@example.com', '1234567890', '123 Main St'),
-(2, 'Jane', 'B.', 'Smith', 'Jane B. Smith', '0987654321', NULL, 'jane.smith@example.com', '0987654321', '456 Elm St'),
-(3, 'Bob', 'C.', 'Johnson', 'Bob C. Johnson', '4561237890', NULL, 'bob.johnson@example.com', '4561237890', '789 Oak St');
+( 'John', 'A.', 'Doe', 'John A. Doe', '1234567890', NULL, 'john.doe@example.com', '1234567890', '123 Main St'),
+( 'Jane', 'B.', 'Smith', 'Jane B. Smith', '0987654321', NULL, 'jane.smith@example.com', '0987654321', '456 Elm St'),
+( 'Bob', 'C.', 'Johnson', 'Bob C. Johnson', '4561237890', NULL, 'bob.johnson@example.com', '4561237890', '789 Oak St');
 
 
 INSERT INTO [dbo].[INVOICE_TYPE] (TYPE_ID, TYPE_NAME)
