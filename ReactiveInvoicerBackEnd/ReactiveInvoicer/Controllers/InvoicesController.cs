@@ -29,7 +29,7 @@ namespace ReactiveInvoicer.Controllers
             var query = _context.Invoices
                 .Include(i => i.Partner) // Include related data
                 .Include(i => i.InvoiceTypeNavigation)
-                .Include(i=>i.Payments)// Include related data
+                .Include(i => i.Payments)// Include related data
                 .AsQueryable();
 
             // Fetch the results
@@ -45,7 +45,7 @@ namespace ReactiveInvoicer.Controllers
                     PartnerName = i.Partner.PartnertFullname,
                     InvoiceTypeName = i.InvoiceType
 
-                    
+
                 })
                 .ToListAsync();
 
@@ -76,8 +76,8 @@ namespace ReactiveInvoicer.Controllers
             }
             string invoiceTypeName = _context.InvoiceTypes.FirstOrDefault(x => x.TypeId == invoice.InvoiceType).TypeName;
 
-                // Създаване на обект с резултатите
-                var details = new
+            // Създаване на обект с резултатите
+            var details = new
             {
                 invoice.InvoiceId,
                 invoice.InvoiceNo,
@@ -135,10 +135,10 @@ namespace ReactiveInvoicer.Controllers
 
             if (invoice == null)
                 return NotFound($"Invoice with ID {id} not found.");
-           
+
 
             // Актуализиране на данните за фактурата
-           invoice.InvoiceStatus= model.status;
+            invoice.InvoiceStatus = model.status;
 
             // Записване на промените
             await _context.SaveChangesAsync();
@@ -163,20 +163,24 @@ namespace ReactiveInvoicer.Controllers
 
             if (model.PayableUntil < model.InvoiceDate)
                 return BadRequest("Payable date cannot be earlier than the invoice date.");
-            if (string.IsNullOrEmpty(model.PartnerPhone))
-                return BadRequest("Partner phone must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerEgn )&& string.IsNullOrEmpty(model.PartnerBulstat))
-                return BadRequest("Partner identifier must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerAddress))
-                return BadRequest("Partner address must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerEmail))
-                return BadRequest("Partner email must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerName))
-                return BadRequest("Partner First name must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerSurname))
-                return BadRequest("Partner Surname must not be empty");
-            if (string.IsNullOrEmpty(model.PartnerLastname))
-                return BadRequest("Partner Last name must not be empty");
+            if (model.PartnerId == 0)
+            {
+
+                if (string.IsNullOrEmpty(model.PartnerPhone))
+                    return BadRequest("Partner phone must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerEgn) && string.IsNullOrEmpty(model.PartnerBulstat))
+                    return BadRequest("Partner identifier must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerAddress))
+                    return BadRequest("Partner address must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerEmail))
+                    return BadRequest("Partner email must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerName))
+                    return BadRequest("Partner First name must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerSurname))
+                    return BadRequest("Partner Surname must not be empty");
+                if (string.IsNullOrEmpty(model.PartnerLastname))
+                    return BadRequest("Partner Last name must not be empty");
+            }
 
             // Проверка и/или създаване на контрагент
             Partner partner;
@@ -192,8 +196,8 @@ namespace ReactiveInvoicer.Controllers
                 // Създаване на нов контрагент
                 partner = new Partner
                 {
-                    PartnerBulstat=model.PartnerBulstat,
-                    PartnerEgn=model.PartnerEgn,
+                    PartnerBulstat = model.PartnerBulstat,
+                    PartnerEgn = model.PartnerEgn,
                     PartnerName = model.PartnerName,
                     PartnerSurname = model.PartnerSurname,
                     PartnerLastname = model.PartnerLastname,
@@ -262,7 +266,7 @@ namespace ReactiveInvoicer.Controllers
         public async Task<IActionResult> GetOverdueInvoices()
         {
             // Изчисли текущата дата
-            DateTime currentDate =(DateTime.UtcNow.Date);
+            DateTime currentDate = (DateTime.UtcNow.Date);
 
             // Извличане на фактури с недостатъчни плащания и изтекла дата за плащане
             var overdueInvoices = await _context.Invoices
