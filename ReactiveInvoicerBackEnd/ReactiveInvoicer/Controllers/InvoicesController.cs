@@ -238,11 +238,7 @@ namespace ReactiveInvoicer.Controllers
             };
 
             _context.Payments.Add(payment);
-            if (invoice.Payments.Sum(p => p.PaymentValue) + model.PaymentValue >= invoice.InvoiceValue)
-            {
-                invoice.InvoiceStatus = "P"; // Update status to Paid
-                _context.Invoices.Update(invoice);
-            }
+
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "Payment registered successfully.", PaymentId = payment.PaymentId });
