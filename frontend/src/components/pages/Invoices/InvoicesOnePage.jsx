@@ -17,7 +17,7 @@ export default function InvoiceOnePage() {
     try {
       const response = await api.get(`Invoices/${id}`);
       const data = response.data;
-      console.log(data.invoiceStatus)
+      console.log(data)
       const statusnew= data.invoiceStatus
       setInvoice(data);
 
@@ -25,8 +25,8 @@ export default function InvoiceOnePage() {
       const totalPayments = data.payments?.reduce((sum, payment) => sum + payment.paymentValue, 0) || 0;
       const remainingBalance = (data.invoiceValue || 0) - totalPayments;
       const overdueDays = calculateOverdueDays(data.invoicePayableUntil,data.invoiceStatus);
-      setTotalPayments(totalPayments);
-      setRemainingBalance(remainingBalance);
+      setTotalPayments(data.totalPayments);
+      setRemainingBalance(data.remainingBalance);
       setOverdueDays(overdueDays);
       setStatus(statusnew); 
 
