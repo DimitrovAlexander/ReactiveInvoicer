@@ -110,7 +110,7 @@ export default function InvoicesRead() {
         <table className="table table-zebra">
           <thead>
             <tr>
-              <th>Id</th>
+              
               <th>Invoice Info</th>
               <th>Invoice Date</th>
               <th>Payment due</th>

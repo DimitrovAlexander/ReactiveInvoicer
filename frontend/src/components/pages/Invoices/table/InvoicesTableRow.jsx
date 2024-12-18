@@ -44,7 +44,7 @@ export function InvoicesTableRow({ invoice, getData }) {
 
 	return (
 		<tr>
-			<th>{invoice.invoiceId}</th>
+			
 			<td>
 				<div>Invoice No: {invoice.invoiceNo}</div>
 				<div>Type: {invoice.invoiceTypeName == 1 ? "Income" : "Expense"}</div>

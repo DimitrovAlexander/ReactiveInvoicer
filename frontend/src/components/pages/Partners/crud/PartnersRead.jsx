@@ -83,7 +83,7 @@ export default function PartnersRead() {
 				<table className="table table-zebra">
 					<thead>
 						<tr>
-							<th>Id</th>
+							<th>#</th>
 							<th>Partner Identifier</th>
 							<th>Client Type</th>
 							<th>Client Name</th>
